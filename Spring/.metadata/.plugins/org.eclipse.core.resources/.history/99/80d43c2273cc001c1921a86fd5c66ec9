@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+
+<h1 style="color:blue;">A Blue Heading</h1>
+
+<p style="color:red;">${msg}</p>
+
+</body>
+</html>

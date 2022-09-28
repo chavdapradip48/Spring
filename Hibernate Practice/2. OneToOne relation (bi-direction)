@@ -1,0 +1,242 @@
+
+
+
+
+
+						OneToOne Relation with Bia-direction 
+						=======================================
+
+
+
+----------------------------------------------------------------------------------------------------------
+1. AppConfig.java(annotation)
+-----------------------------
+package com.hibernate.question;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+	@Bean
+	public Question getQuestion() {
+		return new Question();
+	}
+	@Bean
+	public Answer getAnswer() {
+		return new Answer();
+	}
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+2. hibernate.cfg.java  :
+-------------------------
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql:// localhost:3306/pradip</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">99097@Pradip</property>
+		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property><!--database (oracle,mysql,etc) -->
+		<property name="hbm2ddl.auto">create</property><!-- create, update -->
+		<property name="show_sql">true</property><!--  it show query when query fired-->
+		
+		<mapping class="com.hibernate.person.Person"/>
+		<mapping class="com.hibernate.person.Company"/>
+		
+		<mapping class="com.hibernate.question.Question"/>
+		<mapping class="com.hibernate.question.Answer"/>
+		
+	</session-factory>
+	
+</hibernate-configuration>
+
+
+----------------------------------------------------------------------------------------------------------
+3.  Question.java(bean) :
+----------------------------
+package com.hibernate.question;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+public class Question {
+	@Id
+	@GeneratedValue
+	@Column(name="question_id")
+	private int questionId;
+	private String question;
+	@OneToOne
+	private Answer answer;
+	
+	public Question() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Question(int questionId, String question, Answer answer) {
+		super();
+		this.questionId = questionId;
+		this.question = question;
+		this.answer = answer;
+	}
+	public int getQuestionId() {
+		return questionId;
+	}
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
+	}
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+	public Answer getAnswer() {
+		return answer;
+	}
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+
+	
+}
+
+----------------------------------------------------------------------------------------------------------
+4.  Answer.java(bean) :
+----------------------------
+
+package com.hibernate.person;
+
+import javax.persistence.Embeddable;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Embeddable
+public class Address {
+	
+	private String city;
+	private String state;
+	
+	public Address() {
+		super();
+	}
+	public Address(String city, String state) {
+		super();
+		this.city = city;
+		this.state = state;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+6.  MainClass.java(main) :
+----------------------------
+package com.hibernate.question;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainClass {
+
+
+	public static void main(String[] args) throws Exception{
+		ApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		
+		Question question=context.getBean(Question.class);
+		question.setQuestionId(10);
+		question.setQuestion("What is hibernate ?");
+		
+
+		Answer answer=context.getBean(Answer.class);
+		answer.setAnswerId(3);
+		answer.setAnswer("Hibernate is ORM tool and use to interact with database.");
+		/*
+		 * Here if we set answerid into question table then it  is uni-direction
+		 * 
+		 * If we set answerid into question table and question  id into answer table then it bia-direction*/
+		answer.setQuestion(question);
+		question.setAnswer(answer);
+		
+		Session s=factory.openSession();
+		Transaction tr=s.beginTransaction();
+		
+		s.save(question);
+		s.save(answer);
+		
+		tr.commit();
+		s.close();
+	}
+
+}
+
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 22, 2022 12:53:09 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 22, 2022 12:53:10 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 22, 2022 12:53:10 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 22, 2022 12:53:10 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 22, 2022 12:53:10 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 22, 2022 12:53:10 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 22, 2022 12:53:10 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 22, 2022 12:53:11 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+Apr 22, 2022 12:53:11 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@322e49ee] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Hibernate: alter table Answer add constraint FK8yiifgngf37mxn437tqdab3rg foreign key (question_question_id) references Question (question_id)
+Hibernate: alter table Question add constraint FKs6ghcwuovtcp489oo5dy7rvk5 foreign key (answer_answer_id) references Answer (answer_id)
+Apr 22, 2022 12:53:11 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: select next_val as id_val from hibernate_sequence for update
+Hibernate: update hibernate_sequence set next_val= ? where next_val=?
+Hibernate: select next_val as id_val from hibernate_sequence for update
+Hibernate: update hibernate_sequence set next_val= ? where next_val=?
+Hibernate: insert into Question (answer_answer_id, question, question_id) values (?, ?, ?)
+Hibernate: insert into Answer (answer, question_question_id, answer_id) values (?, ?, ?)

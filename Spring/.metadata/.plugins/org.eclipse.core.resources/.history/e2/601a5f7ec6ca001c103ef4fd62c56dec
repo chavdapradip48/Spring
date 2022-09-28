@@ -1,0 +1,18 @@
+package com.pradip.springmvc.dao;
+
+public class DaoImpl implements Dao {
+
+	@Override
+	public boolean userLoginCheck(String email, String password) {
+		System.out.println("\n-> Username is"+email);
+		System.out.println("\n-> Password is"+password);
+		if(email=="chavdapradip48@gmail.com") {
+			return true;
+		}
+		else {
+			return false;
+		}
+		return false;
+	}
+
+}

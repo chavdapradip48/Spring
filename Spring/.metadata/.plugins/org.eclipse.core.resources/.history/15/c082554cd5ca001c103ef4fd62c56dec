@@ -1,0 +1,16 @@
+package com.pradip.springmvc.model;
+
+import java.util.Arrays;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class User {
+	private String name;
+	private String mobile;
+	private String email;
+	private String birthdate;
+	private String gender;
+	private String hobby;
+	private String password;
+}

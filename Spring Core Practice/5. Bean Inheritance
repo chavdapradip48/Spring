@@ -1,0 +1,109 @@
+
+
+
+
+
+
+						Bean Inheritance using xml:
+						============================
+
+----------------------------------------------------------------------------------------------------------
+1. Inheritance.java(bean)
+-----------------------------
+package com.pradip.inheritance;
+
+public class Inheritance {
+	private String name;
+	private String email;
+	private String mobile;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	@Override
+	public String toString() {
+		return "Name : "+name+"   Email : "+email+"   Mobile : "+mobile;
+	}
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+2. PrintData.java
+----------------------
+package com.pradip.inheritance;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class PrintData {
+	public static void main(String a[]) {
+		ApplicationContext context=new ClassPathXmlApplicationContext("general.xml");
+		
+		Inheritance parentObject=(Inheritance) context.getBean("parentObject");
+		System.out.println("\n\n ** Inheritance Example ** \n\n");
+		System.out.println("This is parent object : "+parentObject.toString());
+		Inheritance childObject=(Inheritance) context.getBean("childObject");
+		System.out.println("\n\nThis is chilld object : "+childObject.toString());
+		System.out.println("\n\nNOTE : In parent we only set name thats why other values is null.");
+		System.out.println("NOTE : In child, It have parent properties also thats why it print all values.");
+		
+	}
+}
+
+
+	
+----------------------------------------------------------------------------------------------------------
+3. collections.xml :
+-------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<bean id="parentObject" class="com.pradip.inheritance.Inheritance">
+		<property name="name" value="Pradip"/>
+	</bean>
+	
+	<bean id="childObject" parent="parentObject">
+		<property name="email" value="pradip@gmail.com" />
+		<property name="mobile" value="9664921495"></property>
+	</bean>
+	
+	
+</beans>
+
+
+=========================================================================================================
+5. OutPut
+==========================================================================================================
+
+
+ ** Inheritance Example ** 
+
+
+This is parent object : Name : Pradip   Email : null   Mobile : null
+
+
+This is chilld object : Name : Pradip   Email : pradip@gmail.com   Mobile : 9664921495
+
+
+NOTE : In parent we only set name thats why other values is null.
+NOTE : In child, It have parent properties also thats why it print all values.
+

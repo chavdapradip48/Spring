@@ -1,0 +1,371 @@
+
+
+
+
+
+						Hibernate with xml 
+						==================
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+1. Person.java(Bean) :
+----------------------------
+package com.hibernate.xml;
+
+public class Person {
+	private int id;
+	private String name;
+	private int age;
+	public Person() {
+		super();
+	}
+	public Person(int id, String name, int age) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.age = age;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+}
+
+
+----------------------------------------------------------------------------------------------------------
+2. TestXML.java(main) :
+----------------------------
+package com.hibernate.xml;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class TestXML {
+
+	public static void main(String[] args) {
+		Person p=new Person(12,"Pradip",22);
+		SessionFactory factory=new Configuration().configure().buildSessionFactory();
+		Session session=factory.openSession();
+		Transaction tr=session.beginTransaction();
+		
+		session.save(p);
+		tr.commit();
+		
+		session.close();
+		factory.close();
+		
+	}
+
+}
+
+----------------------------------------------------------------------------------------------------------
+1. Person.hbm.xml(Person class mapping with hibernate) :
+----------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+	<hibernate-mapping>
+		<class name="com.hibernate.xml.Person" table="person_xml">
+			<id name="id" column="person_id">
+				<generator class="native"></generator>
+			</id>
+			<property name="name" column="person_name" type="string"/>
+			<property name="age" column="person_age" type="int"/>
+		</class>
+	</hibernate-mapping>
+	
+	
+	
+	
+----------------------------------------------------------------------------------------------------------
+1. Person.hbm.xml(Person class mapping with hibernate) :
+----------------------------
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql:// localhost:3306/pradip</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">99097@Pradip</property>
+		<property name="dialect">org.hibernate.dialect.MySQL8Dialect</property><!--database (oracle,mysql,etc) -->
+		<property name="hbm2ddl.auto">update</property><!-- create, update -->
+		<property name="show_sql">true</property> <!--  it show query when query fired-->
+		<property name="format_sql">true</property><!-- Query come formated manner -->
+
+		
+		<mapping resource="com/hibernate/xml/Person.hbm.xml"/>
+
+	</session-factory>
+	
+</hibernate-configuration>
+	
+	
+	
+	
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 25, 2022 7:24:29 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 25, 2022 7:24:30 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 25, 2022 7:24:30 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 25, 2022 7:24:30 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 25, 2022 7:24:30 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 25, 2022 7:24:30 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 25, 2022 7:24:30 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 25, 2022 7:24:30 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Apr 25, 2022 7:24:31 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7c52fc81] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Apr 25, 2022 7:24:31 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+
+--------------------
+equals 1 operation
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeId=?
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+
+=> Employee List is : 
+1	Pradip Chavda
+
+--------------------
+Not equals 1 operation
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeId<>?
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+
+=> Employee List is : 
+2	Sandip Chavda
+3	Rakesh Parmar
+5	New
+6	Krunal
+7	Manisha
+8	Daryll
+9	Kishan
+10	Kishan
+11	Sailesh
+12	Krunal
+
+--------------------
+less than 5 operation
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeId<?
+
+=> Employee List is : 
+1	Pradip Chavda
+2	Sandip Chavda
+3	Rakesh Parmar
+
+--------------------
+less than or equals 5 operation
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeId<=?
+
+=> Employee List is : 
+1	Pradip Chavda
+2	Sandip Chavda
+3	Rakesh Parmar
+5	New
+
+--------------------
+greater than 5 operation
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeId>?
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+
+=> Employee List is : 
+6	Krunal
+7	Manisha
+8	Daryll
+9	Kishan
+10	Kishan
+11	Sailesh
+12	Krunal
+
+--------------------
+greater than or equals 5 operation
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeId>=?
+
+=> Employee List is : 
+5	New
+6	Krunal
+7	Manisha
+8	Daryll
+9	Kishan
+10	Kishan
+11	Sailesh
+12	Krunal
+
+--------------------
+like constraint  (%r%)
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeName like ?
+
+=> Employee List is : 
+1	Pradip Chavda
+3	Rakesh Parmar
+6	Krunal
+8	Daryll
+12	Krunal
+
+--------------------
+between constraints 5 to 10 
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    where
+        this_.employeeId between ? and ?
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+Apr 25, 2022 7:24:31 PM org.hibernate.internal.SessionImpl createCriteria
+WARN: HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+
+=> Employee List is : 
+5	New
+6	Krunal
+7	Manisha
+8	Daryll
+9	Kishan
+10	Kishan
+
+--------------------
+order by desc
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    order by
+        this_.employeeId desc
+
+=> Employee List is : 
+12	Krunal
+11	Sailesh
+10	Kishan
+9	Kishan
+8	Daryll
+7	Manisha
+6	Krunal
+5	New
+3	Rakesh Parmar
+2	Sandip Chavda
+1	Pradip Chavda
+
+--------------------
+order by asc
+Hibernate: 
+    select
+        this_.employeeId as employee1_0_0_,
+        this_.employeeName as employee2_0_0_ 
+    from
+        Employee this_ 
+    order by
+        this_.employeeId asc
+
+=> Employee List is : 
+1	Pradip Chavda
+2	Sandip Chavda
+3	Rakesh Parmar
+5	New
+6	Krunal
+7	Manisha
+8	Daryll
+9	Kishan
+10	Kishan
+11	Sailesh
+12	Krunal
+

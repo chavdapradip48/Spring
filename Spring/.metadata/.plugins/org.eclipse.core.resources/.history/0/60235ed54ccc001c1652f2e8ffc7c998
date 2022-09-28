@@ -1,0 +1,25 @@
+package com.spring.springproject.config;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+@EnableWebMvc
+@Configuration
+@ComponentScan(basePackages = "com.spring.springproject.controller")
+public class AppConfig {
+	@Bean
+	public InternalResourceViewResolver viewResolver() {
+		System.out.println("This is view resolver");
+		InternalResourceViewResolver viewResolver=new InternalResourceViewResolver();
+		viewResolver.setPrefix("/views/");
+		viewResolver.setSuffix(".jsp");
+		return viewResolver;
+	}
+	
+	
+}

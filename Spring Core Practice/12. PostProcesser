@@ -1,0 +1,151 @@
+
+
+
+						BeanPostProcessor 
+						=================
+
+----------------------------------------------------------------------------------------------------------
+1. Message.java(bean)
+---------------------
+package com.pradip.initializingbeandesposableBean;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+public class MessageModel{
+	private String message;
+	public MessageModel() {
+		System.out.println("Object created of MessageModel class.");
+	}
+	public String getMessage() {
+
+		System.out.println("Message getted.");
+		return message;
+	}
+
+	public void setMessage(String message) {
+
+		System.out.println("Message setted.");
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return "MessageModel [message=" + message + "]";
+	}
+	@PostConstruct
+	public void init() throws Exception {
+		/*This method call when instanciate bean and then value set using setter method then call this method*/ 
+		System.out.println("I am initiazing method.");
+	}
+	@PreDestroy
+	public void destroy() throws Exception {
+		/*This method call when bean destroy before */
+		System.out.println("I am destroy .");	
+	}
+}
+
+----------------------------------------------------------------------------------------------------------
+2. PrintMessage.java(main)
+-----------------------
+package com.pradip.initializingbeandesposableBean;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class PrintMessage{
+
+	public static void main(String[] args) {
+		
+		System.out.println("\n** PostProcessing **\n");
+		ApplicationContext context= new ClassPathXmlApplicationContext("file:/home/pradip/Documents/Spring Practice/general.xml");
+		
+		MessageModel mm=(MessageModel)context.getBean("messagemodel");
+		
+		System.out.println(mm.getMessage());
+		((ConfigurableApplicationContext)context).close();
+		System.out.print("\n=>  NOTE : there is disadvantage like we have multiple model than. \n");
+	}
+
+
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+3. MyPostProcesser.java :
+-------------------------
+package com.pradip.initializingbeandesposableBean;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+
+public class MyPostProcesser implements BeanPostProcessor {
+
+	@Override
+	public Object postProcessAfterInitialization(Object arg0, String arg1) throws BeansException {
+		System.out.println("\n\nThis is postProcessAfterInitialization"+arg0+" "+arg1+"\n\n");
+		return arg0;
+	}
+
+	@Override
+	public Object postProcessBeforeInitialization(Object arg0, String arg1) throws BeansException {
+		System.out.println("\n\nThis is postProcessAfterInitialization"+arg0+" "+arg1+"\n\n");
+		return arg0;
+	}
+
+}
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+3. general.xml :
+-------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context = "http://www.springframework.org/schema/context"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+   http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+   	default-init-method="init" default-destroy-method="destroy">
+
+	<context:annotation-config/>
+    
+    <!-- InitializingBean and DisposableBean -->
+	<bean id="messagemodel" class="com.pradip.initializingbeandesposableBean.MessageModel" >
+		<property name="message" value="Hello I am Message" />
+	</bean>
+   
+	<!-- register the postprocessor-->		
+	<bean class="com.pradip.initializingbeandesposableBean.MyPostProcesser"/>
+</beans>		
+=========================================================================================================
+4. OutPut
+==========================================================================================================
+** InitializingBean and DisposableBean **
+
+
+Object created of MessageModel class.
+Message setted.
+
+
+This is postProcessAfterInitializationMessageModel [message=Hello I am Message] messagemodel
+
+
+I am initiazing method.
+
+
+This is postProcessAfterInitializationMessageModel [message=Hello I am Message] messagemodel
+
+
+Message getted.
+Hello I am Message
+I am destroy .
+
+=>  NOTE : there is disadvantage like we have multiple model than. 
+

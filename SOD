@@ -1,0 +1,626 @@
+SOD of 20-04-2022
+
+Project: Spring Training.
+	- AbstractApplicationContext. 
+	- Working on remaining topics.
+	- Stack Program.
+	EST : 9:30 Hours	
+	
+	
+	
+	
+SOD of 22-04-2022
+
+Project: Spring hibernate Training.
+	- Embedding objects.
+	- one to one
+	- one to many
+	- many to many 
+	- Fetch type
+	- Object states
+	- HQL 
+	EST : 9:30 Hours	
+	
+	
+	
+SOD of 25-04-2022
+
+Project: Spring hibernate Training.
+	- Working on HQL.
+	- Start Working on :
+		HCQL
+		
+	EST : 9:30 Hours	
+	
+	
+	
+	
+SOD of 26-04-2022
+
+Project: Spring hibernate Training.
+	- Start Working on :
+		- hibernate using xml.
+		- Collection mapping.
+		- And other lefted part.
+		- Basic crud operation using hibernate.
+		
+	EST : 9:30 Hours	
+	
+
+		
+SOD of 28-04-2022
+
+Project: Spring MVC Training.
+	- Start Working on SPring MVC.
+	EST : 9:30 Hours	
+	
+
+
+SOD of 29-04-2022
+
+Project: Spring MVC Training.
+	- Start Working on :
+		- Data sending view to controller.
+		- HTML form using spring MVC.
+		- @RequestMa- pping and @RequestParam.
+		- @ModelAttribute.
+		- 
+		
+	EST : 9:30 Hours
+
+
+
+
+
+
+
+
+SOD of 02-05-2022
+
+Project: Spring MVC Training.
+	- Start Working on :
+		- File Uploading
+		- BindingResult
+		- @ExceptionHandler 
+		- Lefted part of spring mvc 
+		- Explore FreeMarker template
+		
+	EST : 9:30 Hours
+
+
+
+
+
+SOD of 03-05-2022
+
+Project: Spring Training.
+	- Exploring FreeMarker template.
+	- Start working on JSPServletTask to SpringTask
+		
+	EST : 9:30 Hours
+
+
+
+
+
+SOD of 04-05-2022
+
+Project: Spring Training.
+	- Exploring FreeMarker template.
+	- Convert jsp to ftl pages in JSPServletTask UI
+		
+	EST : 9:30 Hours
+
+
+
+
+
+SOD of 05-05-2022
+
+Project: Spring Training.
+	- Exploring FreeMarker template.
+	- Remove XML files and use annotation.
+	- Remove hibernate configuration file and use another way.
+	- Make ftl pages for UI design.
+		
+	EST : 9:30 Hours
+
+
+
+
+
+
+SOD of 06-05-2022
+
+Project: Spring Training.
+	- Make ftl pages for UI design.
+		
+	EST : 9:30 Hours
+
+
+
+SOD of 09-05-2022
+
+Project: Spring Training.
+	- Manage User and Address Bean.
+	- Write logic in ftl pages.
+	- On Submit data store in db.
+	- Edit Profile on Register page.
+	
+	EST : 9:30 Hours
+
+
+
+
+SOD of 10-05-2022
+
+Project: Spring Project.
+	- Manage Address and Role Bean.
+	- Edit page.
+	- Manage address in edit page.
+	- Manage sesssion.
+	EST : 9:00 Hours
+
+
+
+
+SOD of 11-05-2022
+
+Project: Spring Project.
+	- User edit data save in db.
+	- Manage address in edit page.
+	- Manage sesssion.
+	- Include header and footer page.
+	- Use filter for prevent back button.
+	- Image print in Editpage and ProfilePage.
+	EST : 9:30 Hours
+
+
+
+		
+SOD of 16-05-2022
+
+Project: Spring Boot Project.
+	- Spring boot documentation reading.
+	- Springmvc project convert into spring boot.
+	
+	EST : 9:30 Hours
+
+
+
+
+SOD of 17-05-2022
+
+Project: Spring Boot Project.
+	- Spring boot documentation reading.
+	- Springmvc project convert into spring boot.
+	
+	EST : 9:30 Hours
+	
+	
+	
+	
+	
+
+SOD of 18-05-2022
+
+Project: Spring Boot Project.
+	- Working On :
+		- Springmvc project convert into spring boot.
+	
+	EST : 9:30 Hours	
+	
+	
+	
+	
+
+SOD of 20-05-2022
+
+Project: Spring Boot Project.
+	- Read documentation of postman API.
+	- Postman implement in spring boot project.
+	
+	EST : 9:30 Hours	
+	
+	
+	
+	
+	
+
+SOD of 23-05-2022
+
+Project: Spring Boot Project.
+	- Writting testcases on springboot project.
+		- service layer testcases.
+		- controller layer testcases.
+	EST : 9:30 Hours	
+	
+	
+	
+
+	
+	
+
+SOD of 27-05-2022
+
+Project: Spring Security
+
+	- Working on spring security.
+	- Start working on JWT tocken protocol
+	 
+	EST : 9:30 Hours	
+	
+
+
+
+
+
+SOD of 30-05-2022
+
+Project: Spring Security
+
+	- Start working on :
+		JWT tocken protocol.
+		oauth2 protocol.
+	 
+	EST : 9:30 Hours	
+	
+	
+
+
+SOD of 31-05-2022
+
+Project: Spring Security
+	- Working on oauth2 protocol. 
+	- Start working on :
+		- google SSO login.
+		
+	EST : 9:30 Hours	
+	
+	
+
+	
+
+
+
+SOD of 01-06-2022
+
+Project: Spring Security
+	- Working on Linux task.
+	- Working on oauth2 protocol. 
+	- Start working on :
+		- google SSO login.
+		
+	EST : 9:30 Hours	
+	
+
+
+
+SOD of 02-06-2022
+
+Project: Spring Security
+	- Working on oauth2 protocol. 
+	- Start working on custom JWT token.
+		
+	EST : 9:30 Hours	
+	
+
+
+
+
+SOD of 03-06-2022
+
+Project: Spring Security 
+
+	- Working on custom JWT token.
+		
+	EST : 9:30 Hours	
+
+
+
+
+
+SOD of 06-06-2022
+
+Project: Spring Cloud 
+
+	- Start Working on spring cloud.
+		
+	EST : 9:30 Hours	
+
+
+
+
+
+
+SOD of 07-06-2022
+
+Project: Spring Cloud and microservices 
+
+	- Working on spring cloud.
+	- Working on microservices.
+		
+	EST : 9:30 Hours	
+
+
+
+
+
+
+SOD of 08-06-2022
+
+Project: Microservices Training
+
+	- Working on microservices.
+		
+	EST : 9:30 Hours	
+
+
+SOD of 09-06-2022
+
+Project: Microservices Training
+
+	- Start working on :
+		- spring cloud config server
+		- Zipkin server
+		
+	EST : 9:30 Hours	
+	
+	
+	
+	
+	
+SOD of 13-06-2022
+
+Project: Microservices Training
+
+	- Start working on :
+	
+		- Parthsir's questions.
+			
+	EST : 9:30 Hours	
+		
+		
+		
+		
+	
+SOD of 14-06-2022
+
+Project: Microservices Training
+
+	- Working on :
+	
+		- Parthsir's questions.
+			
+	EST : 9:30 Hours
+	
+	
+	
+SOD of 15-06-2022
+
+Project: Microservices Training
+
+	- Exploring Amberflo.
+			
+	EST : 9:30 Hours
+	
+	
+	
+	
+SOD of 15-06-2022
+
+Project: Amazon S3
+
+	- Start working on Amazon S3.
+	- and implements in amberflo codebase.
+			
+	EST : 9:30 Hours
+	
+	
+	
+	
+	
+	
+SOD of 20-06-2022
+
+Project: Amberflo
+
+	- Working on amberflo.
+			
+	EST : 9:30 Hours
+	
+
+
+
+
+
+SOD of 30-08-2022
+-----------------
+Project: Elastic SI
+	
+E20-864 : Amberflo - Add instanceId as dimensionId in deployment meter	
+
+EST : 8 Hours
+
+
+SOD of 31-08-2022
+-----------------
+Project: Elastic SI
+	
+E20-867 : Search Admin API testing 	
+
+EST : 8 Hours
+
+
+
+
+SOD of 01-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-867 : Search Admin API testing 	
+	- Testing APIs priority wise that listed yesterday.
+	- And body and response add into doc.  
+	- Module are :
+		User Management
+		Query Optimization
+		List Management
+		Usecase
+		Connection 
+EST : 8 Hours
+
+
+
+
+SOD of 02-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-832 :
+	- Documentation - Update API document from 2.0.35
+
+
+SOD of 05-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-832 :
+	- Documentation - Update API document from 2.0.35
+	- 16 APIs are in smart-search-api for updating documents
+
+
+
+
+SOD of 06-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-832 :
+	- Working on project and usecase module for updating APIs in documents.
+	- Create collection for smart-search-api service.
+
+
+
+
+SOD of 07-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-832 :
+	- Verify with priynkamam.
+	
+E20-843, DEV - Wrong name is displayed on the Last Modified by
+	- Verify that this bug replicate in QA and dev or not.
+	
+	
+SOD of 09-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-867 : Search admin document updating.
+	- Changing document as per client requirement.
+	
+	
+SOD of 12-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-903 : ElasticSI Amberflo Meter : Add Name In EventId Dimension
+	
+		
+	
+SOD of 13-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-828 : Documentation - ElasticSI Amberflo Integration API Document
+	- Latest API changes update in document.
+	
+	
+SOD of 14-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-903 :
+ -Working on whenever project, usecase,connection, query and curation module's name change at a time related meter will stop and restart with new name.	
+	
+
+SOD of 15-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-903 :
+ - Code verify with hepi sir and generate PR for merging code into develpment-phase1-reskin
+ - Test changes in dev environment.
+
+E20- :
+ - Enable security in amberflo microservice.  
+
+
+SOD of 16-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-933 :
+ - Development done waiting for E20-934
+
+E20-937 :
+ - Write testcase.  
+ 
+ 
+ 
+
+SOD of 19-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-937 :
+ - Writing Junit testcases of search-admin.
+
+
+
+SOD of 22-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-937  :
+ - Writing  testcases on UserController of search-admin microservice.
+
+
+
+SOD of 23-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-903 : Integration of AmberFlo
+ - Add a global amberflo enable/disable switch in search-admin and smart-search-api.
+
+
+
+
+
+SOD of 26-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-952 : Add a global amberflo enable/disable switch in search-admin and smart-search-api.
+	- Take pull of E20-949 and apply global switch logic.
+
+
+SOD of 27-09-2022
+-----------------
+Project: Elastic SI
+	
+E20-952 : Add a global amberflo enable/disable switch in search-admin and smart-search-api.
+	- Need to check in dev server.
+
+
+
+SOD of 28-09-2022
+-----------------
+Project: Elastic SI
+
+Need to test below tickets in dev.
+	E20-933 : Enable Security In Amberflo
+	E20-952 : Add a global amberflo enable/disable switch in search-admin and smart-search-api.	
+

@@ -1,0 +1,33 @@
+package com.pradip.springmvc.util;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import com.pradip.springmvc.dao.Dao;
+import com.pradip.springmvc.dao.DaoImpl;
+import com.pradip.springmvc.model.User;
+import com.pradip.springmvc.service.Service;
+import com.pradip.springmvc.service.ServiceImpl;
+
+@Configuration
+public class AppConfig {
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public User getUser() {
+		return new User();
+	}
+	
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Service getService() {
+		return new ServiceImpl();
+	}
+	
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Dao getDao() {
+		return new DaoImpl();
+	}
+}

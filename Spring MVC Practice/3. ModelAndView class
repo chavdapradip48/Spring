@@ -1,0 +1,412 @@
+
+
+
+
+			ModelAndView 
+			============
+			
+
+
+----------------------------------------------------------------------------------------------------------
+1. Person.java(bean)
+----------------------------------------
+
+
+package com.pradip.springmvc.model;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Person {
+	private String personName;
+	private String personMobile;
+	private String personAddress;
+	
+	public Person() {
+		super();
+	}
+	public Person(String personName, String personMobile, String personAddress, int personAge) {
+		super();
+		this.personName = personName;
+		this.personMobile = personMobile;
+		this.personAddress = personAddress;
+		this.personAge = personAge;
+	}
+	public String getPersonName() {
+		return personName;
+	}
+	public void setPersonName(String personName) {
+		this.personName = personName;
+	}
+	public String getPersonMobile() {
+		return personMobile;
+	}
+	public void setPersonMobile(String personMobile) {
+		this.personMobile = personMobile;
+	}
+	public String getPersonAddress() {
+		return personAddress;
+	}
+	public void setPersonAddress(String personAddress) {
+		this.personAddress = personAddress;
+	}
+	public int getPersonAge() {
+		return personAge;
+	}
+	public void setPersonAge(int personAge) {
+		this.personAge = personAge;
+	}
+	private int personAge;
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+2. AppConfig.java(bean provider)
+----------------------------------------
+
+package com.pradip.springmvc.util;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import com.pradip.springmvc.model.Person;
+
+@Configuration
+public class AppConfig {
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Person getPerson() {
+		return new Person();
+	}
+}
+
+
+----------------------------------------------------------------------------------------------------------
+3. HomeController.java(Front controller)
+----------------------------------------
+package com.pradip.springmvc.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.pradip.springmvc.model.Person;
+import com.pradip.springmvc.util.AppConfig;
+
+@Controller  
+public class HomeController {  
+	@RequestMapping("/")  
+    public String display()  
+    {  
+        return "index";  
+    }
+	
+	@RequestMapping("/hello")  
+    public String displayHello(Model model)  
+    {  
+		String name="Pradip";
+		System.out.print(name);
+		model.addAttribute("name",name);
+		
+		List<String> f=new ArrayList<>();
+		f.add("Sandip Chavda");
+		f.add("Rakesh Chavda");
+		f.add("Nirav Parmar");
+		f.add("Jignesh Parmar");
+		f.add("Bhavin Hadiyal");
+		f.add("Ajay Kanzariya");
+		model.addAttribute("friends",f);
+        return "hello";  
+    }
+	
+	@RequestMapping("/hello2")  
+    public ModelAndView displayHello2()  
+    {  
+		AbstractApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+		Person person=context.getBean(Person.class);
+		person.setPersonName("Pradip Chavda");
+		person.setPersonMobile("9664921495");
+		person.setPersonAge(21);
+		person.setPersonAddress("Botad");
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.addObject("person", person);
+		
+		// Pass number of person into arraylist
+		List<Person> personList=new ArrayList<>();
+		Person person1=context.getBean(Person.class);
+		person1.setPersonName("Sandip Chavda");
+		person1.setPersonMobile("5566889944");
+		person1.setPersonAge(18);
+		person1.setPersonAddress("Amd");
+		
+		Person person2=context.getBean(Person.class);
+		person2.setPersonName("Rakesh Chavda");
+		person2.setPersonMobile("8866554422");
+		person2.setPersonAge(25);
+		person2.setPersonAddress("Barvala");
+		
+		Person person3=context.getBean(Person.class);
+		person3.setPersonName("Amit Kanzariya");
+		person3.setPersonMobile("9955665544");
+		person3.setPersonAge(22);
+		person3.setPersonAddress("Botad");
+		
+		Person person4=context.getBean(Person.class);
+		person4.setPersonName("Bhavin Hadiyal");
+		person4.setPersonMobile("9944775566");
+		person4.setPersonAge(20);
+		person4.setPersonAddress("Bavla");
+//		
+		personList.add(person);
+		personList.add(person1);
+		personList.add(person2);
+		personList.add(person3);
+		personList.add(person4);
+
+		modelAndView.addObject("personList", personList);
+		
+		modelAndView.setViewName("hello2");
+		context.close();
+        return modelAndView;  
+    }
+}
+
+----------------------------------------------------------------------------------------------------------
+4. web.xml
+---------------------
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <!-- Configure dispatcher servlet -->
+   <servlet>    
+	    <servlet-name>spring</servlet-name>    
+	    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>    
+	    <load-on-startup>1</load-on-startup>      
+	</servlet>    
+	<servlet-mapping>    
+	    <servlet-name>spring</servlet-name>    
+	    <url-pattern>/</url-pattern>    
+	</servlet-mapping>    
+</web-app>
+
+
+----------------------------------------------------------------------------------------------------------
+5. spring-servlet.xml(ViewResolver)
+------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context  
+        http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">  
+  
+    <!-- Provide support for component scanning -->  
+    <context:component-scan base-package="com.pradip.springmvc.controller" />  
+  
+    <!--Provide support for conversion, formatting and validation -->  
+    <mvc:annotation-driven/>  
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/views/"></property>  
+        <property name="suffix" value=".jsp"></property>          
+     </bean>  
+  
+</beans>  
+
+----------------------------------------------------------------------------------------------------------
+6. index.jsp
+------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	this is index page
+	<br><br><br>
+	<a href="hello">Go to hello page</a><br><br>
+	<a href="hello2">Go to hello2 page</a>
+</body>
+</html>
+
+----------------------------------------------------------------------------------------------------------
+7. hello.jsp
+------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+   <%@ page import="java.util.*" %>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+	Hello guys, My name is <c:out value="${name}"/>
+	<br><br><br> My friends are : <br><br>
+	
+	<c:forEach  var="friend" items="${friends}" varStatus="loop">
+		<br><c:out value="${loop.index+1}"/> <c:out value="${friend}"/>  <br>
+	</c:forEach>
+	
+</body>
+</html>
+
+----------------------------------------------------------------------------------------------------------
+8. hello2.jsp
+------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Only one Bean Object</h1><br><br>
+	Person Name is : <c:out value="${person.personName}"/><br><br>
+	Person Mobile is : <c:out value="${person.personMobile}"/><br><br>
+	Person Address is : <c:out value="${person.personAddress}"/><br><br>
+	Person Age is : <c:out value="${person.personAge}"/><br><br>
+	
+	<br><br><h1>Number of bean using arraylist</h1><br><br>
+	<table border="1">
+		<thead>
+			<tr>
+				<td>#</td>
+				<td>Name</td>
+				<td>Mobile</td>
+				<td>Address</td>
+				<td>Age</td>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="personL" items="${personList}" varStatus="loop">
+				<tr>
+					<td><c:out value="${loop.index+1}"/></td>
+					<td><c:out value="${personL.personName}"/></td>
+					<td><c:out value="${personL.personMobile}"/></td>
+					<td><c:out value="${personL.personAddress}"/></td>
+					<td><c:out value="${personL.personAge}"/></td>
+				</tr>		
+			</c:forEach>
+				
+		</tbody>
+	</table>
+</body>
+</html>
+
+----------------------------------------------------------------------------------------------------------
+8. hello2.jsp
+-------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	THis is hello 2 page
+</body>
+</html>
+
+
+=========================================================================================================
+9. OutPut
+==========================================================================================================
+this is index page
+
+
+Model Class example     ---------------------> (output1)
+
+ModelAndView Class Example    ---------------> (output2)
+
+
+
+=========================================================================================================
+OutPut1
+==========================================================================================================
+
+Hello guys, My name is Pradip
+
+
+My friends are :
+
+
+1 Sandip Chavda
+
+2 Rakesh Chavda
+
+3 Nirav Parmar
+
+4 Jignesh Parmar
+
+5 Bhavin Hadiyal
+
+6 Ajay Kanzariya
+
+=========================================================================================================
+OutPut2
+==========================================================================================================
+
+Only one Bean Object
+
+
+Person Name is : Pradip Chavda
+
+Person Mobile is : 9664921495
+
+Person Address is : Botad
+
+Person Age is : 21
+
+
+
+Number of bean using arraylist
+
+
+#	Name	Mobile	Address	Age
+1	Pradip Chavda	9664921495	Botad	21
+2	Sandip Chavda	5566889944	Amd	18
+3	Rakesh Chavda	8866554422	Barvala 25
+4	Amit Kanzariya	9955665544	Botad	22
+5	Bhavin Hadiyal	9944775566	Bavla	20
+
+
+
+
+

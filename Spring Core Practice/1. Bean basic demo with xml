@@ -1,0 +1,158 @@
+
+
+
+
+								Spring core Program for bean with xml:
+								======================================
+
+
+----------------------------------------------------------------------------------------------------------							
+1. Vehicle.java(interface) :
+----------------------------
+
+
+package com.pradip.spring;
+public interface Vehicle {
+	void display();
+	int speed();
+}
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+2. Bike.java
+------------
+
+
+package com.pradip.spring;
+public class Bike implements Vehicle{
+	@Override
+	public void display() {
+		System.out.println("This is Bike");
+	}
+	@Override
+	public int speed() {
+		return 100;
+	}
+}
+
+
+----------------------------------------------------------------------------------------------------------
+3. Car.java
+------------
+
+package com.pradip.spring;
+public class Car implements Vehicle {
+
+	@Override
+	public void display() {
+		System.out.println("This is Car");
+	}
+
+	@Override
+	public int speed() {
+		return 250;
+	}	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+4. springbean.xml :
+-------------------
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+   
+    <!-- bike id have a access of Bike class -->
+	<bean id="bike" class="com.pradip.spring.Bike"></bean>
+   
+    <!-- car id have a access of Car class -->	
+	<bean id="car" class="com.pradip.spring.Car"></bean>
+
+</beans>
+
+
+----------------------------------------------------------------------------------------------------------
+5. Requirement.java
+-------------------
+
+package com.pradip.spring;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;  
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+public class Requirement {
+	public static void main(String args[]) { 
+		/*
+		 * There are two type of IOC container 
+		 * 1. ApplicationContext :
+		 * => ApplicationContext context= new ClassPathXmlApplicationContext("springbean.xml");
+		 * 
+		 * 2. BeanFactory
+		 * => 
+		 * 	Resource resource=new ClassPathResource("springbean.xml");  
+		 * 	BeanFactory factory=new XmlBeanFactory(resource);  
+		 * 
+		 * */
+		
+		// ApplicationContext use to get access of xml file 
+		ApplicationContext context= new ClassPathXmlApplicationContext("springbean.xml");
+		Vehicle vehicleObject=(Vehicle)context.getBean("car");
+		System.out.println("\n\n** ApplicationContext Example\n");
+		vehicleObject.display();
+		System.out.println("This  vehicle run on "+vehicleObject.speed()+" speed.");
+		
+		Resource resource=new ClassPathResource("springbean.xml");  
+		BeanFactory factory=new XmlBeanFactory(resource);  
+		Vehicle vehicleObject1=(Vehicle)factory.getBean("bike");
+		
+		System.out.println("\n\n** BeanFactory Example\n");
+		vehicleObject1.display();
+		System.out.println("This vehicle run on "+vehicleObject1.speed()+" speed.");		
+	}
+}
+
+
+
+=========================================================================================================
+6. OutPut
+==========================================================================================================
+
+
+** ApplicationContext Example
+
+This is Car
+This  vehicle run on 250 speed.
+
+
+** BeanFactory Example
+
+This is Bike
+This vehicle run on 100 speed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

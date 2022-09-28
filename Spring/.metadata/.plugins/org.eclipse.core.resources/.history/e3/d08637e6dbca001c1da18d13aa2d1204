@@ -1,0 +1,48 @@
+package com.pradip.springmvc.dao;
+
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.*;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+
+import com.pradip.springmvc.model.User;
+import com.pradip.springmvc.service.Service;
+import com.pradip.springmvc.util.AppConfig;
+
+import org.hibernate.cfg.Configuration;
+
+public class DaoImpl implements Dao {
+	@Override
+	public boolean userLoginCheck(String email, String password) {
+		
+		AbstractApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+		User userObj=context.getBean(User.class);
+		userObj.setName("Pradip");
+		userObj.setMobile("9909714196");
+		userObj.setEmail("pradip@gmail.com");
+		userObj.setGender("male");
+		userObj.setHobby("music");
+		userObj.setPassword("pradip123");
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		Session session=factory.openSession();
+		Transaction tr=session.beginTransaction();
+		
+		tr.commit();
+		session.close();
+		context.close();
+//		Query query=session.createQuery("FROM Employee where email='admin@gmail.com'");
+//		int res=query.executeUpdate();
+		System.out.println("\n-> Username is"+email);
+		System.out.println("\n-> Password is"+password);
+		if(email.equals("chavdapradip48@gmail.com")) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+}

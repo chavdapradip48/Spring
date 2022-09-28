@@ -1,0 +1,5 @@
+package com.pradip.springmvc.util;
+
+public class HibernateUtil {
+
+}

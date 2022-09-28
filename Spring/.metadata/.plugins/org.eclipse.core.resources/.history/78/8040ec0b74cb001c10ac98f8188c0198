@@ -1,0 +1,29 @@
+package com.pradip.springmvc.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Service;
+
+import com.pradip.springmvc.dao.Dao;
+import com.pradip.springmvc.dao.DaoImpl;
+import com.pradip.springmvc.model.User;
+import com.pradip.springmvc.util.AppConfig;
+
+
+public class ServiceImpl implements Service{
+	AbstractApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+	@Autowired
+	Dao daoObject;//=context.getBean(Dao.class);
+	
+	@Override
+	public boolean userLoginService(String email, String password) {
+		return daoObject.userLoginCheck(email, password);
+	}
+
+	@Override
+	public boolean insertUser(User user) {
+		return daoObject.insertUser(user);
+	}
+
+}

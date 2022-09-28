@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context = "http://www.springframework.org/schema/context"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+   http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<context:annotation-config/>
+
+	<!-- Below config for  inheritance package-->
+	<bean id="parentObject" class="com.pradip.inheritance.Inheritance">
+		<property name="name" value="Pradip"/>
+	</bean>
+	<bean id="childObject" parent="parentObject">
+		<property name="email" value="pradip@gmail.com" />
+		<property name="mobile" value="9664921495"></property>
+	</bean>	
+	
+	
+	<!-- Below for autowiring package -->
+
+	<bean name="address" class="com.pradip.autowiring.Address">
+		<property name="street" value="Paliyad Road" />
+		<property name="city" value="Botad" />
+	</bean>
+	
+	<bean name="address2" class="com.pradip.autowiring.Address2">
+		<property name="pincode" value="364710" />
+	</bean>
+	
+
+	<bean id="employee" class="com.pradip.autowiring.Employee" autowire="byName" >
+		<property name="mainAddress" value="Shnakar para, Near swaminarayan temple"></property>
+	</bean>
+	
+	<bean id="employee2" class="com.pradip.autowiring.Employee" autowire="byType" >
+		<property name="mainAddress" value="Mem nagar"></property>
+	</bean>
+	
+	<bean id="employee3" class="com.pradip.autowiring.Employee" autowire="constructor" >
+		<property name="mainAddress" value="Omkar society"></property>
+	</bean>
+	
+	<!-- Below for beanscope package -->
+	<bean id="singletonscope" class="com.pradip.beanscope.Tyre" scope="singleton">
+		<property name="brandName" value="MRF" />
+		<property name="price" value="9000" />
+	</bean>
+		<bean id="prototypescope" class="com.pradip.beanscope.Tyre" scope="prototype">
+		<property name="brandName" value="MRF" />
+		<property name="price" value="9000" />
+	</bean>
+
+	<!-- PropertyPlaceholderConfigurer and properties files -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+       <!-- <property name="location" value="classpath:user.properties" /> -->
+        <property name="location" value="user.properties" />
+    </bean>
+    <bean id="setprop" class="com.pradip.properties.SetProp">
+        <property name="username" value="${db.username}" />
+        <property name="password" value="${db.password}" />
+        <property name="database" value="${db.database}" />
+        <property name="url" value="${db.url}" />
+    </bean>
+    
+    <!-- InitializingBean and DisposableBean -->
+	<bean id="messagemodel" class="com.pradip.initializingbeandesposableBean.MessageModel" >
+		<property name="message" value="Hello I am Message" />
+	</bean>
+   
+   <!-- BeanNameAware -->
+   <bean id="beanname" class="com.pradip.aware.MyBeanNameAware">
+   </bean>
+   
+   <!-- Annotation  -->
+<context:component-scan base-package="com.pradip.annotation"/>
+	
+	<!-- Bean required annotation-->
+	<!-- 	<bean id="modelXml" class="com.pradip.annotation.AnnoModel">
+		<property name="number" value="20"/>
+	</bean> -->
+	
+</beans>	

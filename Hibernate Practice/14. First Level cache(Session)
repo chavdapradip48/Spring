@@ -1,0 +1,220 @@
+
+
+
+
+
+						First Level Cache 
+						=================
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+3.  Question.java(bean) :
+----------------------------
+package com.hibernate.question;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+public class Question {
+	@Id
+	@Column(name="question_id")
+	private int questionId;
+	private String questionn;
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL )
+	private List<Answer> answers;
+	
+	public Question() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	public Question(int questionId, String questionn, Answer answer) {
+		super();
+		this.questionId = questionId;
+		this.questionn = questionn;
+	}
+	public int getQuestionId() {
+		return questionId;
+	}
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
+	}
+	public String getQuestion() {
+		return questionn;
+	}
+	public void setQuestion(String question) {
+		this.questionn = question;
+	}
+
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+4.  Project.java(bean) :
+----------------------------
+package com.hibernate.project;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import org.springframework.stereotype.Component;
+
+@Entity
+public class Project {
+	
+	@Id
+	private int projectId;
+	
+	private String ProjectName;
+	@ManyToMany//(mappedBy = "project")
+	@JoinTable(name = "project_employee_mapping",joinColumns = {@JoinColumn(name="join_eid")},inverseJoinColumns = {@JoinColumn(name="join_pid")})
+	private List<Employee> employee;
+	
+	public Project(int projectId, String projectName, List<Employee> employee) {
+		super();
+		this.projectId = projectId;
+		ProjectName = projectName;
+		this.employee = employee;
+	}
+	public Project() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public int getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+	public String getProjectName() {
+		return ProjectName;
+	}
+	public void setProjectName(String projectName) {
+		ProjectName = projectName;
+	}
+	public List<Employee> getEmployee() {
+		return employee;
+	}
+	public void setEmployee(List<Employee> employee) {
+		this.employee = employee;
+	}
+
+	
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+6.  MainClass.java(main) :
+----------------------------
+package com.hibernate.hql;
+
+import java.util.List;
+import java.util.Scanner;
+
+import org.hibernate.query.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class MainClass {
+
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int userId;
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		Scanner sc=new Scanner(System.in);
+		Session s=factory.openSession();
+//		String query="from Employee";
+//		Query q=s.createQuery(query);
+		Employee e=s.get(Employee.class, 5);
+		System.out.println("Fisrt time query fired : "+e);
+		
+		Employee e2=s.get(Employee.class, 5);
+		System.out.println("Second time query fired : "+e2);
+		System.out.println("Session closed");
+		s.close();
+		Session s2=factory.openSession();
+		
+		Employee e3=s2.get(Employee.class, 5);
+		System.out.println("After session close new session : "+e2);
+		s2.close();
+
+}
+
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 25, 2022 5:09:37 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 25, 2022 5:09:38 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 25, 2022 5:09:39 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Apr 25, 2022 5:09:40 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3625a016] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Hibernate: 
+    
+    alter table Answer 
+       add constraint FKiab62yi7k1mtyhsd40l6eu97d 
+       foreign key (question_fk) 
+       references Question (question_id)
+Apr 25, 2022 5:09:40 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: 
+    select
+        employee0_.employeeId as employee1_1_0_,
+        employee0_.employeeName as employee2_1_0_ 
+    from
+        Employee employee0_ 
+    where
+        employee0_.employeeId=?
+Fisrt time query fired : com.hibernate.hql.Employee@20ead579
+Second time query fired : com.hibernate.hql.Employee@20ead579
+Session closed
+Hibernate: 
+    select
+        employee0_.employeeId as employee1_1_0_,
+        employee0_.employeeName as employee2_1_0_ 
+    from
+        Employee employee0_ 
+    where
+        employee0_.employeeId=?
+After session close new session : com.hibernate.hql.Employee@20ead579
+
+

@@ -1,0 +1,137 @@
+
+
+
+						using InitializingBean and DisposableBean 
+						=========================================
+
+----------------------------------------------------------------------------------------------------------
+1. Message.java(bean)
+---------------------
+package com.pradip.initializingbeandesposableBean;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+public class MessageModel{
+	private String message;
+	public MessageModel() {
+		System.out.println("Object created of MessageModel class.");
+	}
+	public String getMessage() {
+
+		System.out.println("Message getted.");
+		return message;
+	}
+
+	public void setMessage(String message) {
+
+		System.out.println("Message setted.");
+		this.message = message;
+	}
+
+	@Override
+	public String toString() {
+		return "MessageModel [message=" + message + "]";
+	}
+	@PostConstruct
+	public void init() throws Exception {
+		/*This method call when instanciate bean and then value set using setter method then call this method*/ 
+		System.out.println("I am initiazing method.");
+	}
+	@PreDestroy
+	public void destroy() throws Exception {
+		/*This method call when bean destroy before */
+		System.out.println("I am destroy .");	
+	}
+}
+
+----------------------------------------------------------------------------------------------------------
+2. PrintMessage.java(main)
+-----------------------
+package com.pradip.initializingbeandesposableBean;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class PrintMessage{
+
+	public static void main(String[] args) {
+		
+		System.out.println("\n** InitializingBean and DisposableBean **\n");
+		System.out.println("\n=>  First way  : using interface and override methods");
+		System.out.println("-> class MessageModel implements InitializingBean, DisposableBean   and impliments methods");
+		System.out.println("\n=>  Second way  : use bean init-method and destroy-method attributes ");
+		System.out.println("-> <bean id=\"messagemodel\" class=\"com.pradip.initializingbeandesposableBean.MessageModel\" init-method=\"init\" destroy-method=\"destroy\">");
+		System.out.println("\n=>  Third way  : use beans default-init-method and default-destroy-method ");
+		System.out.println("<beans default-init-method=\"init\" default-destroy-method=\"destroy\"></beans>");
+		System.out.println("\n=>  Fourth way  : use annotation like @Postconstruct and @PreDestroy");
+		System.out.println("-> Active annotation in spring project by <context:annotation-config/>");
+		System.out.println("-> Write @PostConstruct on intialize method");
+		System.out.println("-> Write @PreDestroy on destroy method");
+		ApplicationContext context= new ClassPathXmlApplicationContext("general.xml");
+		
+		MessageModel mm=(MessageModel)context.getBean("messagemodel");
+		
+		System.out.println(mm.getMessage());
+		((ConfigurableApplicationContext)context).close();
+		System.out.print("\n=>  NOTE : there is disadvantage like we have multiple model than. \n");
+	}
+}
+
+----------------------------------------------------------------------------------------------------------
+3. general.xml :
+-------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context = "http://www.springframework.org/schema/context"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+   http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+   	default-init-method="init" default-destroy-method="destroy">
+
+	<context:annotation-config/>
+    
+    <!-- InitializingBean and DisposableBean -->
+	<bean id="messagemodel" class="com.pradip.initializingbeandesposableBean.MessageModel" >
+		<property name="message" value="Hello I am Message" />
+	</bean>
+   
+	
+</beans>		
+=========================================================================================================
+4. OutPut
+==========================================================================================================
+
+** InitializingBean and DisposableBean **
+
+
+=>  First way  : using interface and override methods
+-> class MessageModel implements InitializingBean, DisposableBean   and impliments methods
+
+=>  Second way  : use bean init-method and destroy-method attributes 
+-> <bean id="messagemodel" class="com.pradip.initializingbeandesposableBean.MessageModel" init-method="init" destroy-method="destroy">
+
+=>  Third way  : use beans default-init-method and default-destroy-method 
+<beans default-init-method="init" default-destroy-method="destroy"></beans>
+
+=>  Fourth way  : use annotation like @Postconstruct and @PreDestroy
+-> Active annotation in spring project by <context:annotation-config/>
+-> Write @PostConstruct on intialize method
+-> Write @PreDestroy on destroy method
+Object created of MessageModel class.
+Message setted.
+
+I am initiazing method.
+
+Message getted.
+Hello I am Message
+I am destroy .
+
+=>  NOTE : there is disadvantage like we have multiple model than. 
+

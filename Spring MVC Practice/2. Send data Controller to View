@@ -1,0 +1,246 @@
+
+
+
+
+			Sending data from Controller to View 
+			===================================
+			
+
+----------------------------------------------------------------------------------------------------------
+1. POM.xml
+------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <dependencies>
+
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>8.0.29</version>
+	</dependency>
+	
+    <!-- https://mvnrepository.com/artifact/jstl/jstl -->
+	<dependency>
+	    <groupId>jstl</groupId>
+	    <artifactId>jstl</artifactId>
+	    <version>1.2</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-webmvc</artifactId>
+	    <version>5.3.19</version>
+	</dependency>
+	
+	<dependency>    
+	    <groupId>javax.servlet</groupId>    
+	    <artifactId>servlet-api</artifactId>    
+	    <version>3.0-alpha-1</version>    
+	</dependency>  
+
+	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	    <version>6.0.0.Final</version>
+	    <type>pom</type>
+	</dependency>
+
+  </dependencies>
+
+</project>
+
+----------------------------------------------------------------------------------------------------------
+2. HomeController.java(Front controller)
+----------------------------------------
+package com.pradip.springmvc.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller  
+public class HomeController {  
+	@RequestMapping("/")  
+    public String display()  
+    {  
+        return "index";  
+    }
+	
+	@RequestMapping("/hello")  
+    public String displayHello(Model model)  
+    {  
+		String name="Pradip";
+		System.out.print(name);
+		model.addAttribute("name",name);
+		
+		List<String> f=new ArrayList<>();
+		f.add("Sandip Chavda");
+		f.add("Rakesh Chavda");
+		f.add("Nirav Parmar");
+		f.add("Jignesh Parmar");
+		f.add("Bhavin Hadiyal");
+		f.add("Ajay Kanzariya");
+		model.addAttribute("friends",f);
+        return "hello";  
+    }
+	
+	@RequestMapping("/hello2")  
+    public String displayHello2()  
+    {  
+        return "hello2";  
+    }
+}
+
+----------------------------------------------------------------------------------------------------------
+3. web.xml
+---------------------
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <!-- Configure dispatcher servlet -->
+   <servlet>    
+	    <servlet-name>spring</servlet-name>    
+	    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>    
+	    <load-on-startup>1</load-on-startup>      
+	</servlet>    
+	<servlet-mapping>    
+	    <servlet-name>spring</servlet-name>    
+	    <url-pattern>/</url-pattern>    
+	</servlet-mapping>    
+</web-app>
+
+
+----------------------------------------------------------------------------------------------------------
+4. spring-servlet.xml(ViewResolver)
+------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context  
+        http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">  
+  
+    <!-- Provide support for component scanning -->  
+    <context:component-scan base-package="com.pradip.springmvc.controller" />  
+  
+    <!--Provide support for conversion, formatting and validation -->  
+    <mvc:annotation-driven/>  
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/views/"></property>  
+        <property name="suffix" value=".jsp"></property>          
+     </bean>  
+  
+</beans>  
+
+----------------------------------------------------------------------------------------------------------
+5. index.jsp
+------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	this is index page
+	<br><br><br>
+	<a href="hello">Go to hello page</a><br><br>
+	<a href="hello2">Go to hello2 page</a>
+</body>
+</html>
+
+----------------------------------------------------------------------------------------------------------
+6. hello.jsp
+------------
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+   <%@ page import="java.util.*" %>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+	Hello guys, My name is <c:out value="${name}"/>
+	<br><br><br> My friends are : <br><br>
+	
+	<c:forEach  var="friend" items="${friends}" varStatus="loop">
+		<br><c:out value="${loop.index+1}"/> <c:out value="${friend}"/>  <br>
+	</c:forEach>
+	
+</body>
+</html>
+
+----------------------------------------------------------------------------------------------------------
+7. hello2.jsp
+-------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	THis is hello 2 page
+</body>
+</html>
+
+
+=========================================================================================================
+6. OutPut
+==========================================================================================================
+Hello guys, My name is Pradip
+
+
+My friends are :
+
+
+1 Sandip Chavda
+
+2 Rakesh Chavda
+
+3 Nirav Parmar
+
+4 Jignesh Parmar
+
+5 Bhavin Hadiyal
+
+6 Ajay Kanzariya
+
+
+
+
+
+
+

@@ -1,0 +1,114 @@
+
+
+
+						@Configuration, @Bean and @Autowired annotation 
+						===============================================
+
+
+----------------------------------------------------------------------------------------------------------
+1. Processer.java(bean)
+-----------------------
+package com.pradip.spring;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public class Processer {
+	@Value("Snapdragen 335")
+	private String processerName;
+
+	public String getProcesserName() {
+		return processerName;
+	}
+
+	public void setProcesserName(String processerName) {
+		this.processerName = processerName;
+	}
+}
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+2. Mobilejava (bean) :
+-------------------------
+package com.pradip.spring;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Mobile {
+	@Value("MI A2")
+	private String name;
+	@Autowired
+	private Processer processer;
+
+	public Processer getProcesser() {
+		return processer;
+	}
+
+	public void setProcesser(Processer processer) {
+		this.processer = processer;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+3.  AppConfig.java(main) :
+-------------------------
+package com.pradip.spring;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+	@Bean
+	public Mobile getMobile() {
+		return new Mobile();
+	}
+	@Bean
+	public Processer getProcesser() {
+		return new Processer();
+	}
+}
+
+----------------------------------------------------------------------------------------------------------
+5. TestClass.java (bean) :
+-------------------------
+package com.pradip.spring;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class TestClass {
+
+	public static void main(String[] args) {
+//		ApplicationContext con=new ClassPathXmlApplicationContext("general.xml");
+		ApplicationContext con=new AnnotationConfigApplicationContext(AppConfig.class);
+		
+		Mobile m=con.getBean(Mobile.class);
+		System.out.println("\n=> "+m.getName()+ " work smoothly beacause it have a "+m.getProcesser().getProcesserName()+" Processer.");
+
+	}
+
+}
+		
+=========================================================================================================
+4. OutPut
+==========================================================================================================
+
+=> MI A2 work smoothly beacause it have a Snapdragen 335 Processer.
+
+

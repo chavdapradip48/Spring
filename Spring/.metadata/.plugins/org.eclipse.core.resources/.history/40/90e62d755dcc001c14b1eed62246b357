@@ -1,0 +1,87 @@
+package com.pradip.springmvc.dao;
+
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.*;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Repository;
+
+import com.pradip.springmvc.model.User;
+import com.pradip.springmvc.util.HibernateUtil;
+import com.pradip.springmvc.config.AppConfig;
+import org.hibernate.cfg.Configuration;
+
+@Repository
+public class DaoImpl implements Dao {
+//	AbstractApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+//	SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+	@Override
+	public boolean userLoginCheck(String email, String password) {
+
+		
+//		User userObj=context.getBean(User.class);
+//
+//		Session session=factory.openSession();
+//		Query query=session.createQuery("from User where email=:email and password=:password");
+//        query.setParameter("email", email);
+//        query.setParameter("password", password);
+//
+//		if(!query.list().isEmpty()) {
+//			System.out.println("\n-> "+email+" User is exist.");
+//			session.close();
+//			context.close();
+//			return true;
+//		}
+//		else {
+//			System.out.println("\n-> "+email+" User is not exist.");
+//			session.close();
+//			context.close();
+//			return false;
+//		}
+return true;		
+//        for(User u:user) {
+//        	System.out.println("Name is : "+u.getName());
+//        }
+//		Transaction tr=session.beginTransaction();
+//		session.save(userObj);
+//		tr.commit();
+
+//		Query query=session.createQuery("FROM Employee where email='admin@gmail.com'");
+//		int res=query.executeUpdate();
+
+	}
+
+	@Override
+	public boolean insertUser(User user) {
+//		User userObj=context.getBean(User.class);
+//		Session session=factory.openSession();
+//		
+//		Transaction tr=session.beginTransaction();
+//		session.save(user);
+//		tr.commit();
+
+		Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // start a transaction
+            transaction = session.beginTransaction();
+            // save the student object
+            session.save(user);
+            // commit transaction
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        }
+		
+	}
+
+}

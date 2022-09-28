@@ -1,0 +1,172 @@
+
+
+Skype installation : 
+====================
+
+	Command :
+	--------
+
+	root320@pradip-inexture:~$ sudo snap install skype --classic
+
+
+	Output :
+	-------
+
+	[sudo] password for root320: 
+	Download snap "skype" (211) from channel "stable"                                                                                                             Download snap "skype" (211) from 		channel "staWarning: flag --classic ignored for strictly confined snap skype
+
+	skype 8.83.0.411 from Skype* installed
+
+
+
+
+Chrome installation : 
+====================
+
+	Commands :
+	--------
+	root320@pradip-inexture:~$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	sudo dpkg -i google-chrome-stable_current_amd64.deb
+	sudo apt -f install
+	sudo apt install google-chrome-stable
+
+	Output :
+	-------
+	
+	root320@pradip-inexture:~$ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	--2022-05-31 12:42:41--  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	Resolving dl.google.com (dl.google.com)... 142.250.193.14, 2404:6800:4002:819::200e
+	Connecting to dl.google.com (dl.google.com)|142.250.193.14|:443... connected.
+	HTTP request sent, awaiting response... 200 OK
+	Length: 84701968 (81M) [application/x-debian-package]
+	Saving to: ‘google-chrome-stable_current_amd64.deb’
+
+	google-chrome-stable_current_amd64.deb             100%[===============================================================================================================>]  80.78M  6.08MB/s    		in 16s     
+
+	2022-05-31 12:42:57 (5.19 MB/s) - ‘google-chrome-stable_current_amd64.deb’ saved [84701968/84701968]
+
+	root320@pradip-inexture:~$ sudo dpkg -i google-chrome-stable_current_amd64.deb
+	Selecting previously unselected package google-chrome-stable.
+	(Reading database ... 145569 files and directories currently installed.)
+	Preparing to unpack google-chrome-stable_current_amd64.deb ...
+	Unpacking google-chrome-stable (102.0.5005.61-1) ...
+	Setting up google-chrome-stable (102.0.5005.61-1) ...
+	update-alternatives: using /usr/bin/google-chrome-stable to provide /usr/bin/x-www-browser (x-www-browser) in auto mode
+	update-alternatives: using /usr/bin/google-chrome-stable to provide /usr/bin/gnome-www-browser (gnome-www-browser) in auto mode
+	update-alternatives: using /usr/bin/google-chrome-stable to provide /usr/bin/google-chrome (google-chrome) in auto mode
+	Processing triggers for gnome-menus (3.36.0-1ubuntu1) ...
+	Processing triggers for desktop-file-utils (0.24-1ubuntu3) ...
+	Processing triggers for mime-support (3.64ubuntu1) ...
+	Processing triggers for man-db (2.9.1-1) ...
+	root320@pradip-inexture:~$ sudo apt -f install
+	Reading package lists... Done
+	Building dependency tree       
+	Reading state information... Done
+	0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+	root320@pradip-inexture:~$ sudo apt install google-chrome-stable
+	Reading package lists... Done
+	Building dependency tree       
+	Reading state information... Done
+	google-chrome-stable is already the newest version (102.0.5005.61-1).
+	0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+
+
+ STS(spring tool suite) installation : 
+====================
+
+	First download tar file from => https://spring.io/tools
+	
+	Command :
+	--------
+		- After downloading go to dowload folder and open terminal.
+		
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ ls
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ sudo mv spring-tool-suite-4-4.14.1.RELEASE-e4.23.0-linux.gtk.x86_64.tar.gz /opt/
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ cd /opt/
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ ls
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ sudo tar -xvf spring-tool-suite-4-4.14.1.RELEASE-e4.23.0-linux.gtk.x86_64.tar.gz
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ ls
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ cd sts-4.14.1.RELEASE/
+		root320@pradip-inexture:/opt/sts-4.14.1.RELEASE$ sudo nano /usr/share/applications/STS.desktop
+		
+			=> Below text paste in nano
+			
+			[Desktop Entry]
+			Name=Spring Tool Suite
+			Comment=Spring Tool Suite 4.14.1
+			Exec=/opt/sts-4.14.1.RELEASE/SpringToolSuite4
+			Icon=/opt/sts-4.14.1.RELEASE/icon.xpm
+			StartupNotify=true
+			Terminal=false
+			Type=Application
+			Categories=Development;IDE;Java;
+			
+			=> After pasting give ctrl+x for exist and save
+			=> After saving give 'Y' for buffer related
+			=> then give ctrl+O and hit enter
+			=> it automatically generate sts icon 
+
+		
+
+	Output :
+	-------
+
+
+ MySql Workbench installation : 
+====================
+
+	First download deb file from https://dev.mysql.com/downloads/workbench/
+
+	Command :
+	--------
+	
+		First download mqsql server :
+			root320@pradip-inexture:~$ sudo apt update
+			root320@pradip-inexture:~$ sudo apt-get install mysql-server
+			root320@pradip-inexture:~$ systemctl is-active mysql
+				root320@pradip-inexture:~$ sudo mysql
+				> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '99097Pa@';
+				> FLUSH PRIVILEGES;
+			root320@pradip-inexture:~$ sudo mysql_secure_installation
+	
+
+	
+		Open terminal from download
+		
+		sudo dpkg -i mysql-workbench-community_8.0.29-1ubuntu20.04_amd64.deb
+		
+		sudo apt-get install gnome-menus
+		
+		sudo apt --fix-broken install
+			
+			Y
+			
+		mysql-workbench
+
+
+
+
+
+	Output :
+	-------
+
+
+java installation : 
+====================
+
+	Command :
+	--------
+	
+		sudo apt install default-jre
+
+		sudo apt install default-jdk
+
+
+
+
+
+
+
+
+

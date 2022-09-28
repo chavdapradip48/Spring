@@ -1,0 +1,104 @@
+=> For giving permission of perticular folder  
+
+sudo chmod 777 <folder name>
+
+
+
+
+=> For install tomcat server in ubantu
+======================================
+
+-> Update reposetory
+	sudo apt update
+
+-> It search tomcat server and shows latest 
+	sudo apt-cache search tomcat
+
+-> Install tomcat server 
+	sudo apt install tomcat9 tomcat9-admin
+	
+-> 
+
+	ss -ltn
+	
+-> 
+	sudo systemctl enable tomcat9
+	
+-> 
+	sudo ufw allow from any to any port 8080 proto tcp
+	
+->. 
+	http://localhost:8080/
+	
+	
+	
+	
+	
+	
+=> Install apache maven in ubantu :
+====================================
+
+
+-> 
+	sudo apt update
+	
+-> 
+	sudo apt install maven
+
+-> 
+
+	mvn -version
+
+
+
+
+=> For install vscode :
+=======================
+
+sudo snap install --classic code
+
+
+
+=> For install network speed meter :
+==================================
+
+
+
+
+
+
+
+sudo apt-get install gparted
+
+
+
+
+=> For Give permission of disk partition 
+========================================
+
+
+
+
+
+
+sudo fdisk -l
+
+sudo blkid
+
+ll /media/$USER
+
+
+sudo chgrp adm /media/pradip/258d5e41-96dd-4a13-80d6-9f2f16a94000
+
+sudo chmod g+w /media/pradip/258d5e41-96dd-4a13-80d6-9f2f16a94000
+
+sudo chgrp adm /media/pradip/3e55691e-210e-4270-8c4c-7557f1512d05
+
+sudo chgrp adm /media/pradip/51315ab8-7d41-442c-b3be-a53e11671011
+
+sudo chmod g+w /media/pradip/3e55691e-210e-4270-8c4c-7557f1512d05
+
+sudo chmod g+w /media/pradip/51315ab8-7d41-442c-b3be-a53e11671011
+
+
+ 

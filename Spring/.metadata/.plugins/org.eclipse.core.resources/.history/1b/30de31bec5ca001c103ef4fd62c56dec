@@ -1,0 +1,13 @@
+package com.pradip.springmvc.service;
+
+import com.pradip.springmvc.dao.Dao;
+import com.pradip.springmvc.dao.DaoImpl;
+
+public class ServiceImpl implements Service{
+	Dao daoObject=new DaoImpl();
+	@Override
+	public boolean userLoginService(String email, String password) {
+		return false;
+	}
+
+}

@@ -1,0 +1,22 @@
+package com.pradip.springmvc.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.pradip.springmvc.dao.Dao;
+import com.pradip.springmvc.model.User;
+
+public class ServiceImpl implements ServiceInf{
+	@Autowired
+	Dao daoObject;
+	
+	@Override
+	public boolean userLoginService(String email, String password) {
+		return daoObject.userLoginCheck(email, password);
+	}
+
+	@Override
+	public boolean insertUser(User user) {
+		return daoObject.insertUser(user);
+	}
+
+}

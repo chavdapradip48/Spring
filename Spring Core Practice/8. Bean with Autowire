@@ -1,0 +1,263 @@
+
+
+
+
+						Bean with Autowire :
+						====================
+
+----------------------------------------------------------------------------------------------------------
+1. Address.java(bean)
+---------------------
+package com.pradip.autowiring;
+
+public class Address {
+	private String street;
+	private String city;
+	public String getStreet() {
+		return street;
+	}
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	@Override
+	public String toString() {
+		return "Address [street=" + street + ", city=" + city + "]";
+	}
+}
+
+
+----------------------------------------------------------------------------------------------------------
+2. Address2.java(bean)
+-----------------------
+
+package com.pradip.autowiring;
+
+public class Address2 {
+	private int pincode;
+
+	public int getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(int pincode) {
+		this.pincode = pincode;
+	}
+	
+	@Override
+	public String toString() {
+		return "Address2 [pincode=" + pincode + "]";
+	}
+	
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+3. Employee.java(bean) :
+-----------------------
+
+package com.pradip.autowiring;
+
+public class Employee {
+	private String mainAddress;
+
+	private Address address;
+	private Address2 address2;
+
+	// Generate default constructor
+	public Employee() {}
+	
+	// Also generate parameeterized constructor
+	public Employee(String mainAddress, Address address, Address2 address2) {
+		super();
+		this.mainAddress = mainAddress;
+		this.address = address;
+		this.address2 = address2;
+	}
+
+	// Generate needable getter setter
+	public String getMainAddress() {
+		return mainAddress;
+	}
+
+	public void setMainAddress(String mainAddress) {
+		this.mainAddress = mainAddress;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public Address2 getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(Address2 address2) {
+		this.address2 = address2;
+	}
+	
+	// for printing values of Employee class
+	@Override
+	public String toString() {
+		return "Employee [mainAddress=" + mainAddress + ", \n\t\t\t\t\taddress=" + address + ", \n\t\t\t\t\taddress2=" + address2 + "]";
+	}
+	
+	
+}
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+5. Test.java (main):
+-------------------
+package com.pradip.autowiring;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+	public static void main(String a[]) {
+		ApplicationContext context=new ClassPathXmlApplicationContext("general.xml");
+		Employee emp=context.getBean("employee",Employee.class);
+		Address address=context.getBean("address",Address.class);
+		Address2 address2=context.getBean("address2",Address2.class);
+
+		System.out.println("\n** Autowire Example **\n");
+
+		System.out.println("\n** Address 1 **\n");
+		
+		System.out.println("=> Address toString method is : "+address.toString());
+		System.out.println("=> Address2 toString method is : "+address2.toString());
+		System.out.println("\n=> Employee toString method is : "+emp.toString());
+		System.out.println("\n=> Whle address is : "+emp.getMainAddress()+"  "+address.getStreet()+"  "+address.getCity()+"  "+address2.getPincode());
+		
+		Employee emp2=context.getBean("employee2",Employee.class);
+		System.out.println("\n** Address 2 **\n");
+		System.out.println("=> Address toString method is : "+address.toString());
+		System.out.println("=> Address2 toString method is : "+address2.toString());
+		System.out.println("\n=> Employee toString method is : "+emp2.toString());
+		System.out.println("\n=> Whle address is : "+emp2.getMainAddress()+"  "+address.getStreet()+"  "+address.getCity()+"  "+address2.getPincode());
+
+		Employee emp3=context.getBean("employee3",Employee.class);
+		System.out.println("\n** Address 3 **\n");
+		System.out.println("=> Address toString method is : "+address.toString());
+		System.out.println("=> Address2 toString method is : "+address2.toString());
+		System.out.println("\n=> Employee toString method is : "+emp3.toString());
+		System.out.println("\n=> Whle address is : "+emp3.getMainAddress()+"  "+address.getStreet()+"  "+address.getCity()+"  "+address2.getPincode());
+
+	
+	}
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+6. general.xml :
+-------------------
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- Below config for  inheritance package-->
+	<bean id="parentObject" class="com.pradip.inheritance.Inheritance">
+		<property name="name" value="Pradip"/>
+	</bean>
+	<bean id="childObject" parent="parentObject">
+		<property name="email" value="pradip@gmail.com" />
+		<property name="mobile" value="9664921495"></property>
+	</bean>	
+	
+	
+	<!-- Below for autowiring package -->
+
+	<bean name="address" class="com.pradip.autowiring.Address">
+		<property name="street" value="Paliyad Road" />
+		<property name="city" value="Botad" />
+	</bean>
+	
+	<bean name="address2" class="com.pradip.autowiring.Address2">
+		<property name="pincode" value="364710" />
+	</bean>
+	
+
+	<bean id="employee" class="com.pradip.autowiring.Employee" autowire="byName" >
+		<property name="mainAddress" value="Shnakar para, Near swaminarayan temple"></property>
+	</bean>
+	
+	<bean id="employee2" class="com.pradip.autowiring.Employee" autowire="byType" >
+		<property name="mainAddress" value="Mem nagar"></property>
+	</bean>
+	
+	<bean id="employee3" class="com.pradip.autowiring.Employee" autowire="constructor" >
+		<property name="mainAddress" value="Omkar society"></property>
+	</bean>
+</beans>	
+
+=========================================================================================================
+5. OutPut
+==========================================================================================================
+
+
+** Autowire Example **
+
+
+** Address 1 **
+
+=> Address toString method is : Address [street=Paliyad Road, city=Botad]
+=> Address2 toString method is : Address2 [pincode=364710]
+
+=> Employee toString method is : Employee [mainAddress=Shnakar para, Near swaminarayan temple, 
+					address=Address [street=Paliyad Road, city=Botad], 
+					address2=Address2 [pincode=364710]]
+=> Whle address is : Shnakar para, Near swaminarayan temple  Paliyad Road  Botad  364710
+
+
+
+** Address 2 **
+
+=> Address toString method is : Address [street=Paliyad Road, city=Botad]
+=> Address2 toString method is : Address2 [pincode=364710]
+
+=> Employee toString method is : Employee [mainAddress=Mem nagar, 
+					address=Address [street=Paliyad Road, city=Botad], 
+					address2=Address2 [pincode=364710]]
+=> Whle address is : Mem nagar  Paliyad Road  Botad  364710
+
+
+
+** Address 3 **
+
+=> Address toString method is : Address [street=Paliyad Road, city=Botad]
+=> Address2 toString method is : Address2 [pincode=364710]
+
+=> Employee toString method is : Employee [mainAddress=Omkar society, 
+					address=null, 
+					address2=null]
+=> Whle address is : Omkar society  Paliyad Road  Botad  364710
+
+
+
+
+
+
+
+
+
+
+
+
+

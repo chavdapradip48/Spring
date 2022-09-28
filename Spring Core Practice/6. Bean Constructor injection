@@ -1,0 +1,135 @@
+
+
+
+
+
+
+						Bean Inheritance using xml:
+						============================
+
+----------------------------------------------------------------------------------------------------------
+1. Requirement.java
+-----------------------
+package com.pradip.spring;
+
+import org.springframework.context.ApplicationContext;  
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Requirement {
+	public static void main(String args[]) { 
+
+		Bike hondaCOnstruct=(Bike)context.getBean("hondaCOnstruct");
+		System.out.println("\n=> Inner property bean define outside outer bean\n");
+		System.out.println(hondaCOnstruct.bikeName);
+		System.out.println(hondaCOnstruct.bikeModel);
+		System.out.println(hondaCOnstruct.bikeSpeed);
+		System.out.println(hondaCOnstruct.bikeTyre.brandName);
+		System.out.println(hondaCOnstruct.bikeTyre.price);
+
+		System.out.println("\n=> Inner property bean define in outer bean\n");
+		Bike constructIn=(Bike)context.getBean("constructIn");
+		System.out.println(constructIn.bikeName);
+		System.out.println(constructIn.bikeModel);
+		System.out.println(constructIn.bikeSpeed);
+		System.out.println(constructIn.bikeTyre.brandName);
+		System.out.println(constructIn.bikeTyre.price);
+		
+		
+	}
+}
+
+----------------------------------------------------------------------------------------------------------
+2. Bike.java (Bean)
+----------------------
+package com.pradip.spring;
+public class Bike{
+	String bikeName;
+	String bikeModel;
+	int bikeSpeed;
+	Tyre bikeTyre;
+
+	public Bike() {}
+
+	public Bike(String bikeName, String bikeModel, int bikeSpeed, Tyre bikeTyre) {
+		super();
+		this.bikeName = bikeName;
+		this.bikeModel = bikeModel;
+		this.bikeSpeed = bikeSpeed;
+		this.bikeTyre = bikeTyre;
+	}
+}
+
+----------------------------------------------------------------------------------------------------------
+3. Tyre.java (Bean)
+----------------------
+package com.pradip.spring;
+
+public class Tyre {
+	String brandName;
+	int price;
+	
+	public Tyre() {}
+	public Tyre(String brandName, int price) {
+		super();
+		this.brandName = brandName;
+		this.price = price;
+	}
+}
+	
+----------------------------------------------------------------------------------------------------------
+3. springbean.xml :
+-------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!--  Constructor injection -->
+	<bean id="hondaCOnstruct" class="com.pradip.spring.Bike">
+		<constructor-arg index="0" value="Hello Bike"/>
+		<constructor-arg index="1" value="P3"/>
+		<constructor-arg type="" index="2" value="205"/>
+		<constructor-arg index="3" ref="tyreConstruct"/>
+	</bean>
+	<bean id="tyreConstruct" class="com.pradip.spring.Tyre">
+		<constructor-arg name="brandName" value="Cello"/>
+		<constructor-arg name="price" value="3000"/>
+	</bean>
+
+	<bean id="constructIn" class="com.pradip.spring.Bike">
+		<constructor-arg name="bikeName" value="outer bean"/>
+		<constructor-arg name="bikeModel" value="P3"/>
+		<constructor-arg name="bikeSpeed" value="205"/>
+		<constructor-arg name="bikeTyre">
+			<bean class="com.pradip.spring.Tyre">
+				<constructor-arg name="brandName" value="Inner bean"/>
+				<constructor-arg name="price" value="3000"/>			
+			</bean>
+		</constructor-arg>
+	</bean>
+</beans>
+
+
+=========================================================================================================
+5. OutPut
+==========================================================================================================
+
+
+=> Inner property bean define outside outer bean
+
+Hello Bike
+P3
+205
+Cello
+3000
+
+=> Inner property bean define in outer bean
+
+outer bean
+P3
+205
+Inner bean
+3000
+

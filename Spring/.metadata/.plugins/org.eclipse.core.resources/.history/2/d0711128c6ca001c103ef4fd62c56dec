@@ -1,0 +1,5 @@
+package com.pradip.springmvc.service;
+
+interface Service {
+	boolean userLoginService(String email,String password);
+}

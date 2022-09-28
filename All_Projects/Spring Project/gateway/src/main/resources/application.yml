@@ -1,0 +1,52 @@
+server:
+  port: 7777
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: gateway1
+  cloud:
+    gateway:
+      routes:
+        - id: person-service
+          uri: lb://person-service
+          predicates:
+            - Path=/person/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: person-service
+#                fallbackuri: forward:/PersonServiceFallback
+
+
+        - id: address-service
+          uri: lb://address-service
+          predicates:
+            - Path=/address/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: address-service
+#                fallbackuri: forward:/AddressServiceFallback  
+
+#hystrix:
+#  command:
+#    fallbackcmd:
+#      execution:
+#        isolation:
+#          thread:
+#            timeout-in-millieseconds: 5000
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: hystrix.stream

@@ -1,0 +1,554 @@
+
+
+
+
+
+						Store and retrieve data using hibernate 
+						=======================================
+
+
+
+----------------------------------------------------------------------------------------------------------
+1. AppConfig.java(annotation)
+-----------------------------
+package com.hibernate.person;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+	@Bean
+	public Person getPerson() {
+		return new Person();
+	}
+	@Bean
+	public Address getAddress() {
+		return new Address();
+	}
+	@Bean
+	public Company getCompany() {
+		return new Company();
+	}
+}
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+2. hibernate.cfg.java  :
+-------------------------
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql:// localhost:3306/pradip</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">99097@Pradip</property>
+		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property><!--database (oracle,mysql,etc) -->
+		<property name="hbm2ddl.auto">create</property><!-- create, update -->
+		<property name="show_sql">true</property><!--  it show query when query fired-->
+		
+		<mapping class="com.hibernate.person.Person"/>
+		<mapping class="com.hibernate.person.Company"/>
+		
+		<mapping class="com.hibernate.question.Question"/>
+		<mapping class="com.hibernate.question.Answer"/>
+		
+	</session-factory>
+	
+</hibernate-configuration>
+
+
+----------------------------------------------------------------------------------------------------------
+3.  Person.java(bean) :
+----------------------------
+package com.hibernate.person;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+@Table(name="persondetail")
+public class Person {
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private int id;
+	@Column(name="fullname")
+	private String name;
+	@Temporal(TemporalType.DATE)
+	private Date birthdate;
+	private boolean isAdmin;
+	private double salary;
+	@Lob
+	private byte[] profileLogo;
+	@Transient
+	private double notAdd;
+	private Address address;
+	private Company company;
+
+
+	public Person() {
+		super();
+	}
+	
+	public Person(int id, String name, Date birthdate, boolean isAdmin, double salary, byte[] profileLogo) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.birthdate = birthdate;
+		this.isAdmin = isAdmin;
+		this.salary = salary;
+		this.profileLogo = profileLogo;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Date getBirthdate() {
+		return birthdate;
+	}
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+	public boolean getAdmin() {
+		return isAdmin;
+	}
+	public double getSalary() {
+		return salary;
+	}
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+	public byte[] getProfileLogo() {
+		return profileLogo;
+	}
+	public void setProfileLogo(byte[] profileLogo) {
+		this.profileLogo = profileLogo;
+	}
+	public double getNotAdd() {
+		return notAdd;
+	}
+	public void setNotAdd(double notAdd) {
+		this.notAdd = notAdd;
+	}
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", name=" + name + ", birthdate=" + birthdate + ", isAdmin=" + isAdmin + ", salary="
+				+ salary + "]";
+	}
+	
+
+	
+	
+}
+----------------------------------------------------------------------------------------------------------
+4.  Address.java(bean) :
+----------------------------
+
+package com.hibernate.person;
+
+import javax.persistence.Embeddable;
+
+import org.springframework.stereotype.Component;
+
+@Component
+@Embeddable
+public class Address {
+	
+	private String city;
+	private String state;
+	
+	public Address() {
+		super();
+	}
+	public Address(String city, String state) {
+		super();
+		this.city = city;
+		this.state = state;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+5.  Company.java(bean) :
+----------------------------
+
+package com.hibernate.person;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+
+import org.springframework.stereotype.Component;
+@Component
+@Embeddable
+public class Company {
+	@Column(name="comapany_name")
+	private String companyName;
+	@Column(name="comapany_location")
+	private String companyLocation;
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public String getCompanyLocation() {
+		return companyLocation;
+	}
+	public void setCompanyLocation(String cLocation) {
+		this.companyLocation = cLocation;
+	}
+	
+	
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+6.  MainClass.java(main) :
+----------------------------
+
+package com.hibernate.person;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainClass {
+
+
+	public static void main(String[] args) throws Exception{
+		ApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+		
+
+		// Make SesionFactory object for access configuration file and configure datafield
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		// create session obj using SessionFactory object
+		Scanner sc=new Scanner(System.in);
+		a:while(true) {
+			System.out.println("\n-------------------------------------------");
+			System.out.println("\tDatabase System\n\t================");
+			System.out.println("\t1. Add Person.");
+			System.out.println("\t2. View Person.");
+			System.out.println("\t3. Exit.\n");
+			System.out.print("=> Please enter your choice number : ");
+			int num=sc.nextInt();
+			switch(num) {
+			case 1:
+				System.out.println("\n\tADD PERSON SYSTEM\n\t-------------------");
+				System.out.print("\n=> Please enter person name : ");
+				String name=sc.next();
+				System.out.print("\n=> Please enter birthdate(dd/mm/yyyy) : ");
+				String pDate=sc.next();
+				System.out.print("\n=> Please enter person  admin or not : ");
+				boolean admin=sc.nextBoolean();
+				System.out.print("\n=> Please enter person salary : ");
+				double salary=sc.nextDouble();
+				
+				System.out.print("\n=> Please enter person's living city : ");
+				String pCity=sc.next();
+				System.out.print("\n=> Please enter person's living state : ");
+				String pState=sc.next();
+				
+				System.out.print("\n=> Please enter person's working company name : ");
+				String cname=sc.next();
+				System.out.print("\n=> Please enter person's working company location : ");
+				String cLocation=sc.next();
+
+				// Load image from project directory and convert into byte array format 
+				FileInputStream fis=new FileInputStream("src/main/images/photo.jpg");
+				byte[] image=new byte[fis.available()];
+				fis.read(image);
+				  
+				// Make person object and set all values
+//				Person p=new Person();
+				Person p= context.getBean(Person.class);
+				p.setName(name);
+				p.setAdmin(admin);
+				p.setSalary(salary);
+				p.setBirthdate(new SimpleDateFormat("dd/MM/yyyy").parse(pDate));
+				p.setNotAdd(4);
+				p.setProfileLogo(image);
+				
+//				Company c =new Company();
+				Company c= context.getBean(Company.class);
+				c.setCompanyName(cname);
+				c.setCompanyLocation(cLocation);
+				p.setCompany(c);
+				
+//				Address adress =new Address();
+				Address adress= context.getBean(Address.class);
+				adress.setCity(pCity);
+				adress.setState(pState);
+				p.setAddress(adress);
+				
+				
+				Session session= factory.openSession();
+				//start transaction
+				Transaction tr=session.beginTransaction();
+				// for saving object  into database table
+				session.save(p);
+				// save current transaction 
+				tr.commit();
+				System.out.println("\n"+p.toString());
+				System.out.println("\n\n\t!!! Person Saved Successfully.");
+				session.close();
+				fis.close();				
+				break;
+			case 2:
+				System.out.println("\n\tVIEW PERSON SYSTEM\n\t-------------------\n");
+				System.out.print("\n=> Please enter PersonID : ");
+				int personId=sc.nextInt();
+				Session viewSession= factory.openSession();
+				Person person=(Person)viewSession.get(Person.class, personId);
+//				Person person=(Person)viewSession.load(Person.class, personId);
+				if(person != null) {
+					System.out.println("\n\t @ Person Id : "+person.getId());
+					System.out.println("\t @ Person Name : "+person.getName());
+					System.out.println("\t @ Admin : "+person.getAdmin());
+					System.out.println("\t @ Person Birthdate : "+person.getBirthdate());
+					System.out.println("\t @ Person Salary : "+person.getSalary());
+					
+					System.out.println("\n\t @ Person's Living City : "+person.getAddress().getCity());
+					System.out.println("\t @ Person's Living State : "+person.getAddress().getState());
+					
+					System.out.println("\n\t @ Person's working Company Name : "+person.getCompany().getCompanyName());
+					System.out.println("\t @ Person's working Company Location: "+person.getCompany().getCompanyLocation());
+				}
+				else {
+					System.out.println("\n\n\t!!! Sorry person not exist.");
+				}
+				break;
+			case 3:
+				System.out.println("\n\n\t\t $$ Thank you for using Database system $$");
+				break a;
+			default:
+				System.out.println("Please enter valid choose");
+			}
+		}
+		sc.close();
+	}
+
+}
+
+
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+
+Apr 22, 2022 12:46:45 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 22, 2022 12:46:45 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 22, 2022 12:46:46 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 22, 2022 12:46:46 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 22, 2022 12:46:46 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 22, 2022 12:46:46 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 22, 2022 12:46:46 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 22, 2022 12:46:46 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+Apr 22, 2022 12:46:47 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@648c5fb3] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Hibernate: alter table Answer add constraint FK8yiifgngf37mxn437tqdab3rg foreign key (question_question_id) references Question (question_id)
+Hibernate: alter table Question add constraint FKs6ghcwuovtcp489oo5dy7rvk5 foreign key (answer_answer_id) references Answer (answer_id)
+Apr 22, 2022 12:46:47 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+
+-------------------------------------------
+	Database System
+	================
+	1. Add Person.
+	2. View Person.
+	3. Exit.
+
+=> Please enter your choice number : 1
+
+	ADD PERSON SYSTEM
+	-------------------
+
+=> Please enter person name : Pradip
+
+=> Please enter birthdate(dd/mm/yyyy) : 21/04/2000
+
+=> Please enter person  admin or not : true
+
+=> Please enter person salary : 35000
+
+=> Please enter person's living city : Botad
+
+=> Please enter person's living state : Gujarat
+
+=> Please enter person's working company name : Inexture
+
+=> Please enter person's working company location : Sola
+Hibernate: insert into persondetail (city, state, birthdate, comapany_location, comapany_name, isAdmin, fullname, profileLogo, salary) values (?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+Person [id=2, name=Pradip, birthdate=Fri Apr 21 00:00:00 IST 2000, isAdmin=true, salary=35000.0]
+
+
+	!!! Person Saved Successfully.
+
+-------------------------------------------
+	Database System
+	================
+	1. Add Person.
+	2. View Person.
+	3. Exit.
+
+=> Please enter your choice number : 2
+
+	VIEW PERSON SYSTEM
+	-------------------
+
+
+=> Please enter PersonID : 2
+Hibernate: select person0_.id as id1_1_0_, person0_.city as city2_1_0_, person0_.state as state3_1_0_, person0_.birthdate as birthdat4_1_0_, person0_.comapany_location as comapany5_1_0_, person0_.comapany_name as comapany6_1_0_, person0_.isAdmin as isAdmin7_1_0_, person0_.fullname as fullname8_1_0_, person0_.profileLogo as profileL9_1_0_, person0_.salary as salary10_1_0_ from persondetail person0_ where person0_.id=?
+
+	 @ Person Id : 2
+	 @ Person Name : Pradip
+	 @ Admin : true
+	 @ Person Birthdate : 2000-04-21
+	 @ Person Salary : 35000.0
+
+	 @ Person's Living City : Botad
+	 @ Person's Living State : Gujarat
+
+	 @ Person's working Company Name : Inexture
+	 @ Person's working Company Location: Sola
+
+-------------------------------------------
+	Database System
+	================
+	1. Add Person.
+	2. View Person.
+	3. Exit.
+
+=> Please enter your choice number : 2
+
+	VIEW PERSON SYSTEM
+	-------------------
+
+
+=> Please enter PersonID : 1
+Hibernate: select person0_.id as id1_1_0_, person0_.city as city2_1_0_, person0_.state as state3_1_0_, person0_.birthdate as birthdat4_1_0_, person0_.comapany_location as comapany5_1_0_, person0_.comapany_name as comapany6_1_0_, person0_.isAdmin as isAdmin7_1_0_, person0_.fullname as fullname8_1_0_, person0_.profileLogo as profileL9_1_0_, person0_.salary as salary10_1_0_ from persondetail person0_ where person0_.id=?
+
+	 @ Person Id : 1
+	 @ Person Name : TestUser
+	 @ Admin : false
+	 @ Person Birthdate : 2000-04-21
+	 @ Person Salary : 65000.0
+
+	 @ Person's Living City : Bota
+	 @ Person's Living State : Rajastjan
+
+	 @ Person's working Company Name : Infosys
+	 @ Person's working Company Location: Gota
+
+-------------------------------------------
+	Database System
+	================
+	1. Add Person.
+	2. View Person.
+	3. Exit.
+
+=> Please enter your choice number : 2
+
+	VIEW PERSON SYSTEM
+	-------------------
+
+
+=> Please enter PersonID : 3
+Hibernate: select person0_.id as id1_1_0_, person0_.city as city2_1_0_, person0_.state as state3_1_0_, person0_.birthdate as birthdat4_1_0_, person0_.comapany_location as comapany5_1_0_, person0_.comapany_name as comapany6_1_0_, person0_.isAdmin as isAdmin7_1_0_, person0_.fullname as fullname8_1_0_, person0_.profileLogo as profileL9_1_0_, person0_.salary as salary10_1_0_ from persondetail person0_ where person0_.id=?
+
+
+	!!! Sorry person not exist.
+
+-------------------------------------------
+	Database System
+	================
+	1. Add Person.
+	2. View Person.
+	3. Exit.
+
+=> Please enter your choice number : 3
+
+
+		 $$ Thank you for using Database system $$
+

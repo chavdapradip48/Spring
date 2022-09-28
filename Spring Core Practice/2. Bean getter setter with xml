@@ -1,0 +1,157 @@
+
+
+
+
+								Bean with getter and setter using xml:
+								======================================
+
+
+
+----------------------------------------------------------------------------------------------------------
+1. Bike.java
+------------
+
+
+package com.pradip.spring;
+public class Bike implements Vehicle{
+	String bikeName;
+	String bikeModel;
+	int bikeSpeed;
+	
+	public String getBikeName() {
+		return bikeName;
+	}
+	public void setBikeName(String bikeName) {
+		this.bikeName = bikeName;
+	}
+	public String getBikeModel() {
+		return bikeModel;
+	}
+	public void setBikeModel(String bikeModel) {
+		this.bikeModel = bikeModel;
+	}
+	public int getBikeSpeed() {
+		return bikeSpeed;
+	}
+	public void setBikeSpeed(int bikeSpeed) {
+		this.bikeSpeed = bikeSpeed;
+	}
+}
+
+
+----------------------------------------------------------------------------------------------------------
+2. Car.java
+------------
+package com.pradip.spring;
+
+public class Car {
+	String carName;
+	String carmodel;
+	int carSpeed;
+	
+	public String getCarName() {
+		return carName;
+	}
+
+	public void setCarName(String carName) {
+		this.carName = carName;
+	}
+
+	public String getCarmodel() {
+		return carmodel;
+	}
+
+	public void setCarmodel(String carmodel) {
+		this.carmodel = carmodel;
+	}
+
+	public int getCarSpeed() {
+		return carSpeed;
+	}
+
+	public void setCarSpeed(int carSpeed) {
+		this.carSpeed = carSpeed;
+	}
+
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+4. springbean.xml :
+-------------------
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+   
+    <!-- bike id have a access of Bike class -->
+	<bean id="bike" class="com.pradip.spring.Bike">
+		<property name="bikeName" value="Honda" />
+		<property name="bikeModel" value="A235" />
+		<property name="bikeSpeed" value="225" />
+	</bean>
+   
+    <!-- car id have a access of Car class -->	
+	<bean id="car" class="com.pradip.spring.Car">
+		<property name="carName" value="Audi" />
+		<property name="carmodel" value="C3A" />
+		<property name="carSpeed" value="445" />
+	</bean>
+</beans>
+
+
+----------------------------------------------------------------------------------------------------------
+4. Requirement.java
+-------------------
+package com.pradip.spring;
+
+import org.springframework.context.ApplicationContext;  
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Requirement {
+	public static void main(String args[]) { 
+		
+		// ApplicationContext use to get access of xml file 
+		ApplicationContext context= new ClassPathXmlApplicationContext("springbean.xml");
+		
+		Bike bikeObject=(Bike)context.getBean("bike");
+		System.out.println("\n\n** Getter and setter example\n");
+		System.out.println("=> "+bikeObject.getBikeName()+" "+bikeObject.getBikeModel()+" Bike run on "+bikeObject.getBikeSpeed()+" speed.");
+		
+		Car carObject=(Car)context.getBean("car");
+		System.out.println("\n=> "+carObject.getCarName()+" "+carObject.getCarmodel()+" Car run on "+carObject.getCarSpeed()+" speed.");
+			
+	}
+}
+
+
+
+=========================================================================================================
+6. OutPut
+==========================================================================================================
+
+** Getter and setter example
+
+=> Honda A235 Bike run on 225 speed.
+
+=> Audi C3A Car run on 445 speed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,48 @@
+package com.pradip.springmvc.config;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.pradip.springmvc.dao.Dao;
+import com.pradip.springmvc.dao.DaoImpl;
+import com.pradip.springmvc.model.Address;
+import com.pradip.springmvc.model.User;
+import com.pradip.springmvc.service.ServiceImpl;
+import com.pradip.springmvc.service.ServiceInf;
+
+@EnableWebMvc
+@Configuration
+@ComponentScan(basePackages = "com.pradip.springmvc.controller")
+public class AppConfig {
+	@Bean
+	public InternalResourceViewResolver viewResolver() {
+		System.out.println("This is view resolver");
+		InternalResourceViewResolver viewResolver=new InternalResourceViewResolver();
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+		return viewResolver;
+	}
+	
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public User getUser() {
+		return new User();
+	}
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Address getAddress() {
+		return new Address();
+	}
+	public Dao getDao() {
+		return new DaoImpl();
+	}
+	
+	public ServiceInf getService() {
+		return new ServiceImpl();
+	}
+}

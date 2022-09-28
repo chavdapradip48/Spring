@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+	
+	<bean id="collections" class="com.pradip.collections.JavaCollections">
+		<property name="list">
+			<list>
+				<value>Pradip</value>
+				<value>Sandip</value>
+				<value>Rakesh</value>
+				<value>Pradip</value>
+				<value>Jaydip</value>
+				<value>Ajay</value>
+				<value>Krunal</value>
+				<value>Daryll</value>
+			</list>
+		</property>
+		<property name="set">
+			<set>
+				<value>Pradip</value>
+				<value>Sandip</value>
+				<value>Rakesh</value>
+				<value>Pradip</value>
+				<value>Jaydip</value>
+				<value>Ajay</value>
+				<value>Krunal</value>
+				<value>Daryll</value>
+			</set>
+		</property>
+		<property name="map">
+			<map>
+				<entry key="1" value="Milk"/>
+				<entry key="2" value="Tea"/>
+				<entry key="3" value="Coffee"/>
+				<entry key="3" value="Cold Tea"/>
+				<entry key="3" value="cold Coffee"/>
+				<entry key="4" value="Water"/>
+				<entry key="5" value="Tea"/>
+			</map>
+		</property>
+		<property name="properties">
+			<props>
+				<prop key="fName">Pradip</prop>
+				<prop key="lName">Chavda</prop>
+				<prop key="mobile">966492495</prop>
+				<prop key="mobile">96649249d5</prop>
+				<prop key="address">Memnagar, Ahmedabad</prop>
+			</props>
+		</property>
+	</bean>
+	
+</beans>

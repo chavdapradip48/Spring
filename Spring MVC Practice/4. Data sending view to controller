@@ -1,0 +1,545 @@
+
+
+
+
+			Data sending view to controller 
+			==============================
+			@RequestParam
+
+
+----------------------------------------------------------------------------------------------------------
+1. Person.java(bean)
+----------------------------------------
+
+
+package com.pradip.springmvc.model;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class Person {
+	private String personName;
+	private String personMobile;
+	private String personAddress;
+	
+	public Person() {
+		super();
+	}
+	public Person(String personName, String personMobile, String personAddress, int personAge) {
+		super();
+		this.personName = personName;
+		this.personMobile = personMobile;
+		this.personAddress = personAddress;
+		this.personAge = personAge;
+	}
+	public String getPersonName() {
+		return personName;
+	}
+	public void setPersonName(String personName) {
+		this.personName = personName;
+	}
+	public String getPersonMobile() {
+		return personMobile;
+	}
+	public void setPersonMobile(String personMobile) {
+		this.personMobile = personMobile;
+	}
+	public String getPersonAddress() {
+		return personAddress;
+	}
+	public void setPersonAddress(String personAddress) {
+		this.personAddress = personAddress;
+	}
+	public int getPersonAge() {
+		return personAge;
+	}
+	public void setPersonAge(int personAge) {
+		this.personAge = personAge;
+	}
+	private int personAge;
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+2. User.java(bean)
+----------------------------------------
+package com.pradip.springmvc.model;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class User {
+	private String userName;
+	private String userMobile;
+	private String userGender;
+	private String[] userHobby;
+	
+	public User(String userName, String userMobile, String userGender, String[] userHobby) {
+		super();
+		this.userName = userName;
+		this.userMobile = userMobile;
+		this.userGender = userGender;
+		this.userHobby = userHobby;
+	}
+
+	public User() {
+		super();
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserMobile() {
+		return userMobile;
+	}
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
+	}
+	public String getUserGender() {
+		return userGender;
+	}
+	public void setUserGender(String userGender) {
+		this.userGender = userGender;
+	}
+	public String[] getUserHobby() {
+		return userHobby;
+	}
+	public void setUserHobby(String[] userHobby) {
+		this.userHobby = userHobby;
+	}
+
+	
+	
+}
+
+----------------------------------------------------------------------------------------------------------
+2. AppConfig.java(bean provider)
+----------------------------------------
+
+package com.pradip.springmvc.util;
+
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import com.pradip.springmvc.model.Person;
+import com.pradip.springmvc.model.User;
+
+@Configuration
+public class AppConfig {
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public Person getPerson() {
+		return new Person();
+	}
+	
+	@Bean
+	@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+	public User getUser() {
+		return new User();
+	}
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+3. HomeController.java(Front controller)
+----------------------------------------
+package com.pradip.springmvc.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.pradip.springmvc.model.Person;
+import com.pradip.springmvc.model.User;
+import com.pradip.springmvc.util.AppConfig;
+
+@Controller  
+//@RequestMapping("/homecontroller")
+public class HomeController {  
+	@RequestMapping("/")  
+    public String display()  
+    {  
+        return "index";  
+    }
+	
+	@RequestMapping("/hello")  
+    public String displayHello(Model model)  
+    {  
+		String name="Pradip";
+		System.out.print(name);
+		model.addAttribute("name",name);
+		
+		List<String> f=new ArrayList<>();
+		f.add("Sandip Chavda");
+		f.add("Rakesh Chavda");
+		f.add("Nirav Parmar");
+		f.add("Jignesh Parmar");
+		f.add("Bhavin Hadiyal");
+		f.add("Ajay Kanzariya");
+		model.addAttribute("friends",f);
+        return "hello";  
+    }
+	
+	@RequestMapping("/hello2")  
+    public ModelAndView displayHello2()  
+    {  
+		AbstractApplicationContext context=new AnnotationConfigApplicationContext(AppConfig.class);
+		Person person=context.getBean(Person.class);
+		person.setPersonName("Pradip Chavda");
+		person.setPersonMobile("9664921495");
+		person.setPersonAge(21);
+		person.setPersonAddress("Botad");
+		ModelAndView modelAndView=new ModelAndView();
+		modelAndView.addObject("person", person);
+		
+		// Pass number of person into arraylist
+		List<Person> personList=new ArrayList<>();
+		Person person1=context.getBean(Person.class);
+		person1.setPersonName("Sandip Chavda");
+		person1.setPersonMobile("5566889944");
+		person1.setPersonAge(18);
+		person1.setPersonAddress("Amd");
+		
+		Person person2=context.getBean(Person.class);
+		person2.setPersonName("Rakesh Chavda");
+		person2.setPersonMobile("8866554422");
+		person2.setPersonAge(25);
+		person2.setPersonAddress("Barvala");
+		
+		Person person3=context.getBean(Person.class);
+		person3.setPersonName("Amit Kanzariya");
+		person3.setPersonMobile("9955665544");
+		person3.setPersonAge(22);
+		person3.setPersonAddress("Botad");
+		
+		Person person4=context.getBean(Person.class);
+		person4.setPersonName("Bhavin Hadiyal");
+		person4.setPersonMobile("9944775566");
+		person4.setPersonAge(20);
+		person4.setPersonAddress("Bavla");
+//		
+		personList.add(person);
+		personList.add(person1);
+		personList.add(person2);
+		personList.add(person3);
+		personList.add(person4);
+
+		modelAndView.addObject("personList", personList);
+		
+		modelAndView.setViewName("hello2");
+		context.close();
+        return modelAndView;  
+    }
+	
+//	@RequestMapping(path = "/Form" , method = RequestMethod.GET)  
+	@RequestMapping("/Form")  
+    public String displayForm()  
+    {  
+		
+        return "Form";  
+    }
+	
+	@RequestMapping(path = "/formdatahandler",method = RequestMethod.POST)  
+//    public String formHandler(HttpServletRequest request)  
+	public String formHandler(@RequestParam("name") String name,
+							  @RequestParam("mobile") String mobile,
+							  @RequestParam("gender") String gender,
+							  @RequestParam("hobby") String[] hobby,Model model)  
+    {  
+		AbstractApplicationContext ap=new AnnotationConfigApplicationContext(AppConfig.class);
+		
+		User u=ap.getBean(User.class);
+		u.setUserName(name);
+		u.setUserMobile(mobile);
+		u.setUserHobby(hobby);
+		u.setUserGender(gender);
+//		String name=request.getParameter("name");
+//		String mobile=request.getParameter("mobile");
+//		System.out.println(name+"   "+mobile);
+//		System.out.println("\n=> UserName is : "+name);
+//		System.out.println("\n=> UserMobile is : "+mobile);
+//		System.out.println("\n=> UserGender is : "+gender);
+//		System.out.print("\n=> UserHobbies is : ");
+//		for(String hobb:hobby) {
+//			System.out.print(" "+hobb);
+//		}
+//		model.addAttribute("name", name);
+//		model.addAttribute("mobile", mobile);
+//		model.addAttribute("gender", gender);
+//		model.addAttribute("hobbies", hobby);
+        model.addAttribute("userObject", u);
+		return "/sucess";  
+    }
+}
+
+----------------------------------------------------------------------------------------------------------
+4. web.xml
+---------------------
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <!-- Configure dispatcher servlet -->
+   <servlet>    
+	    <servlet-name>spring</servlet-name>    
+	    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>    
+	    <load-on-startup>1</load-on-startup>      
+	</servlet>    
+	<servlet-mapping>    
+	    <servlet-name>spring</servlet-name>    
+	    <url-pattern>/</url-pattern>    
+	</servlet-mapping>    
+</web-app>
+
+
+----------------------------------------------------------------------------------------------------------
+5. spring-servlet.xml(ViewResolver)
+------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc"  
+    xsi:schemaLocation="  
+        http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/context  
+        http://www.springframework.org/schema/context/spring-context.xsd  
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">  
+  
+    <!-- Provide support for component scanning -->  
+    <context:component-scan base-package="com.pradip.springmvc.controller" />  
+  
+    <!--Provide support for conversion, formatting and validation -->  
+    <mvc:annotation-driven/>  
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/views/"></property>  
+        <property name="suffix" value=".jsp"></property>          
+     </bean>  
+  
+</beans>  
+
+----------------------------------------------------------------------------------------------------------
+6. index.jsp
+------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	this is index page
+	<br><br><br>
+	<a href="hello">Model Class example</a><br><br>
+	<a href="hello2">ModelAndView Class Example</a><br><br>
+	<a href="Form">Form Example</a>
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------
+7. hello.jsp
+------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>update page</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<style type="text/css">
+section {
+	border:1px solid black;
+	padding:1% 5% 5% 5%;
+	margin:3% 15% 0 15%;
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+
+</head>
+<body>
+<section>
+	
+	<br><p class="h1 text-center">Form Demo</p><br>
+	<form action="formdatahandler" method="POST">
+		<div class="form-group">
+			<label>Student Name</label> <input type="text" class="form-control"
+				name="name" placeholder="Please enter name">
+		</div>
+		<div class="form-group">
+			<label>Student Mobile</label> <input type="text" class="form-control"
+				placeholder="Please enter Mobile number" name="mobile">
+		</div>
+		<div class="form-group">
+			<label>Student Gender</label> 
+			<div class="form-check">
+			  <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" value="Female">
+			  <label class="form-check-label" for="flexRadioDefault1">
+			    Male
+			  </label>
+			</div>
+			<div class="form-check">
+			  <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value="Male">
+			  <label class="form-check-label" for="flexRadioDefault2">
+			    Female
+			  </label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label>Student Hobbies</label>
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="Cricket" id="flexCheckDefault" name="hobby">
+			  <label class="form-check-label" for="flexCheckDefault">
+			    Cricket
+			  </label>
+			</div>
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="Travelling" id="flexCheckChecked" name="hobby" >
+			  <label class="form-check-label" for="flexCheckChecked">
+			    Travelling
+			  </label>
+			</div>
+			<div class="form-check">
+			  <input class="form-check-input" type="checkbox" value="Reading" id="flexCheckChecked" name="hobby">
+			  <label class="form-check-label" for="flexCheckChecked">
+			    Reading
+			  </label>
+			</div>
+		</div>
+		 <input type="hidden" name="update">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</section>
+	
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------
+8. hello2.jsp
+------------
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+
+<html>
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>Done</title>
+</head>
+<body>
+	Welcome,  <c:out value="${userObject.userName}"/><br><br><br>
+	User Mobile is : <c:out value="${userObject.userMobile}"/> <br><br>
+	User Gender is :  <c:out value="${userObject.userGender}"/><br><br>
+	User Hobbies are : 
+	<c:forEach var="hob" items="${userObject.userHobby}" >
+		<c:out value="${hob}"/>
+				
+	</c:forEach>
+</body>
+</html>
+
+
+=========================================================================================================
+9. OutPut
+==========================================================================================================
+this is index page
+
+
+Model Class example     ---------------------> (output1)
+
+ModelAndView Class Example    ---------------> (output2)
+
+
+
+=========================================================================================================
+OutPut1
+==========================================================================================================
+
+Hello guys, My name is Pradip
+
+
+My friends are :
+
+
+1 Sandip Chavda
+
+2 Rakesh Chavda
+
+3 Nirav Parmar
+
+4 Jignesh Parmar
+
+5 Bhavin Hadiyal
+
+6 Ajay Kanzariya
+
+=========================================================================================================
+OutPut2
+==========================================================================================================
+
+Only one Bean Object
+
+
+Person Name is : Pradip Chavda
+
+Person Mobile is : 9664921495
+
+Person Address is : Botad
+
+Person Age is : 21
+
+
+
+Number of bean using arraylist
+
+
+#	Name	Mobile	Address	Age
+1	Pradip Chavda	9664921495	Botad	21
+2	Sandip Chavda	5566889944	Amd	18
+3	Rakesh Chavda	8866554422	Barvala 25
+4	Amit Kanzariya	9955665544	Botad	22
+5	Bhavin Hadiyal	9944775566	Bavla	20
+
+
+
+
+

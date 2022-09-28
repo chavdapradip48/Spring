@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+
+
+   
+    <!-- bike id have a access of Bike class -->
+	<bean id="honda" class="com.pradip.spring.Bike" scope="singleton">
+		<property name="bikeName" value="Honda" />
+		<property name="bikeModel" value="A235" />
+		<property name="bikeSpeed" value="225" />
+		<property name="bikeTyre">
+			<ref bean="bikeTyre"/>
+		</property>
+	<!-- <property name="bikeTyre" ref="bikeTyre"/>-->
+	</bean>
+
+	<bean id="bikeTyre" class="com.pradip.spring.Tyre" scope="prototype">
+		<property name="brandName" value="MRF" />
+		<property name="price" value="6500" />
+	</bean>
+	<!-- 
+	<alias name="honda" alias="hondalias"/>
+	<alias name="honda" alias="bajajalias"/>
+	 -->
+	
+</beans>

@@ -1,0 +1,29 @@
+package com.pradip.springmvc.dao;
+
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.*;
+import org.hibernate.cfg.Configuration;
+
+public class DaoImpl implements Dao {
+	@Override
+	public boolean userLoginCheck(String email, String password) {
+		
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		Session session=factory.openSession();
+		
+		Query query=session.createQuery("FROM user where email='admin@gmail.com'");
+		int res=query.executeUpdate();
+		System.out.println("\n-> Username is"+res);
+		System.out.println("\n-> Password is"+password);
+		if(email.equals("chavdapradip48@gmail.com")) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+}

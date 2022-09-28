@@ -1,0 +1,81 @@
+
+
+
+						BeanNameAware 
+						=============
+
+
+----------------------------------------------------------------------------------------------------------
+1. PrintMessage.java(main)
+-----------------------
+package com.pradip.aware;
+
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+public class PrintMessage{
+
+	public static void main(String[] args) {
+		
+		System.out.println("\n** BeanNameAware **\n");
+
+		ApplicationContext context= new ClassPathXmlApplicationContext("general.xml");
+
+		MyBeanNameAware mm=(MyBeanNameAware)context.getBean("beanname");
+		mm.show();
+	}
+
+
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+2. MyBeanNameAware.java :
+-------------------------
+package com.pradip.aware;
+
+import org.springframework.beans.factory.BeanNameAware;
+
+public class MyBeanNameAware implements BeanNameAware{
+	private String beanName;
+	@Override
+	public void setBeanName(String beanName) {
+		// TODO Auto-generated method stub
+		this.beanName=beanName;
+	}
+	public void show() {
+		System.out.print("Bean name is : "+beanName);
+	}
+
+}
+
+----------------------------------------------------------------------------------------------------------
+3. general.xml :
+-------------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:context = "http://www.springframework.org/schema/context"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+   http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+   	
+   <!-- BeanNameAware -->
+   <bean id="beanname" class="com.pradip.aware.MyBeanNameAware">
+   </bean>
+</beans>		
+=========================================================================================================
+4. OutPut
+==========================================================================================================
+
+** BeanNameAware **
+
+Bean name is : beanname

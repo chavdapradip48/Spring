@@ -1,0 +1,5 @@
+package com.pradip.springmvc.config;
+
+public class MyWebConfig {
+
+}

@@ -1,0 +1,429 @@
+EOD of 18-04-2022
+
+Project: Spring Training.
+	Worked on :
+	- Annotation
+		- @Component
+		- @Value
+		- @Configuration
+		- @Bean
+		- @AutoWired
+	- ApplicationContextAware
+	- FileSystemXmlApplicationContext
+	- .properties file with annotation
+	EST : 08:26 Hours
+	
+	
+EOD of 20-04-2022
+
+Project: Spring Training.
+	Worked on :
+		- Spring Life cycle.
+		- Remaing Spring topics. 
+		- Stack program done.
+	EST : 09:08 Hours
+	
+	
+EOD of 21-04-2022
+
+Project: Spring hibernate Training.
+	Worked on :
+		- ORM tool.
+		- Advantage of hibernate. 
+		- Object store into database.
+		- Fetch object using get() and load().
+		- annotation :
+			@Entity
+			@Id
+			@Column
+			@Table
+			@Transient
+			@Lob 
+	EST : 09:08 Hours
+	
+	
+	
+	
+EOD of 22-04-2022
+
+Project: Spring hibernate Training.
+	Worked on :
+		- @Embeddable with multiple objects of POJO class.
+		- one to one
+		- one to many
+		- many to many 
+		- Fetch type
+		- Object states
+	Working on HQL 
+		
+	EST : 09:01 Hours	
+	
+	
+	
+EOD of 25-04-2022
+
+Project: Spring hibernate Training.
+	Worked on :
+		- list() and uniqueResult()
+		- setParameter()
+		- alias name with hql
+		- Pagination (setFirstResult() and setMaxResults() )	
+		- HQL with update and delete.
+		- NativeQuery (sql queries)
+		- Cascading
+		- Cache (both implement in demo project)
+		- Criteria (Explore Restriction and Order Class Methods)
+	EST : 09:23 Hours	
+	
+
+EOD of 26-04-2022
+
+Project: Spring hibernate Training.
+	Worked on :
+		- practiced of hibernate with xml
+		- Maked simple project of Student Management System.
+		- In project Perform crud operation  
+	EST : 09:47 Hours	
+	
+
+
+EOD of 28-04-2022
+
+Project: Spring MVC Training.
+	Worked on :
+		- Learnt basic intoduction.
+		- Flow of spring mvc.
+		- Advantages
+		- DispatcherServlet and ViewResolver
+		- Make simple demo of spring mvc
+		- Model Class :
+			- Sending data from cotroller to View
+		- ModelAndView Class :
+			- sent single bean
+			- Sent multiple bean using Arraylist
+		
+	EST : 09:04 Hours	
+
+
+
+
+EOD of 29-04-2022
+
+Project: Spring MVC Training.
+	Worked on :
+		- @RequestMapping on method and class.
+		- Data sending view to controller.
+			- by getParameter
+			- by @RequestParameter
+			- by @ModelAttribute
+		- @ModelAttribute :
+			- for get and set data into bean object automatically
+			- used in mehtod also(common code)
+		- Redirecting :
+			- Redirect using prefix
+			- Redirect using RediectView
+		- Automatic binding with custom type.
+		- @PathVariable
+		
+	EST : 09:04 Hours	
+
+
+
+EOD of 02-05-2022
+
+Project: Spring MVC Training.
+	Worked on :
+		- @BindingResult
+		- File Uploading
+		- @ExceptionHandler
+		- Reading documantation of FreeMarker template
+		- Working on JspServetTask convert into spring
+		
+	EST : 09:24 Hours
+	
+	
+	
+	
+EOD of 03-05-2022
+
+Project: Spring Training.
+	- Working on SpringFinalTask.
+		
+	EST : 09:34 Hours	
+
+
+
+
+EOD of 04-05-2022
+
+Project: Spring Training.
+	- Working on SpringFinalTask.
+		
+	EST : 08:45 Hours	
+
+
+EOD of 05-05-2022
+
+Project: Spring Final Project.
+	- hibernate conf file converted into java file.
+	- spring servlet conf xml file converted into javafile.
+	- Working on Login & Register page.
+	 
+	Total Time : 09:15 Hours	
+
+
+
+EOD of 06-05-2022
+
+Project: Spring Final Project.
+	- Worked on UI :
+		Index.ftl
+		Register.ftl
+		forgot.ftl
+		viewuser.ftl
+		profile.ftl
+		header.ftl
+		footer.ftl
+	Total Time : 09:02 Hours	
+
+
+
+EOD of 09-05-2022
+
+Project: Spring Final Project.
+		- Worked on :
+			- Add user by register page.
+			- Change password page.
+			- View all users.
+			- delete user.
+			- Ajax managed in register, forgot and delete page.
+	Total Time : 09:00 Hours	
+
+
+
+EOD of 10-05-2022
+
+Project: Spring Final Project.
+		- Worked on :
+			- add addresses in database.
+			- Assign role.
+			- Print User data in profile page.
+			- On Edit button perticular user data show in register page.
+			 
+		Total Time : 07:24 Hours	
+
+
+EOD of 11-05-2022
+
+Project: Spring Final Project.
+		- Worked on :
+			- User edited data save in db.
+			- Managed sesssion.
+			- Used filter for prevent back button.
+			- Image printed in Editpage and ProfilePage.
+			- Prevented back button on Login and Logout.
+			- Added different user pages access using filter.
+		- Lefted part :
+			- Include header and footer page.
+			- Delete address in edit page.
+			- If not select image then set old image in edit page.
+			- Other modification based on testing.
+																																																																																																																																																
+		Total Time : 09:14 Hours	
+		
+		
+
+EOD of 12-05-2022
+
+Project: Spring Final Project.
+		- Worked on :
+			- Setted old image when user not select any image in edit page.				
+		- Lefted part :
+			- Include header and footer page.
+			- Delete address in edit page.
+			- Exception handling.	
+			- Other modification based on testing.
+																																																																																																																																																
+		Total Time : 09:14 Hours	
+		
+		
+		
+		
+
+EOD of 12-05-2022
+
+Project: Spring Final Project.
+		- Worked on :
+			- Change fronted validation based on testing.
+			- Maked error handling page.		
+			- Admins and users shown in viewuser page but in admin delete button disabled.
+			- Image validation apply based on page.
+			- Added header and footer.
+			- Manage header menu by session(user,admin).
+																																																																																																																																														
+		Total Time : 09:35 Hours	
+		
+		
+		
+EOD of 16-05-2022
+
+Project: Spring Boot Project.
+		- Worked on :
+			- @SpringBootApplication
+			- Explore application.properties
+			- CrudRepository<T,Integer>
+				- explore  it's own methods 
+				- Custom methods.
+			- @Query : 
+				- JPQL
+				- Native Query
+			- @Param
+			
+		Total Time : 08:58 Hours
+		
+		
+		
+		
+EOD of 17-05-2022
+
+Project: Spring Boot Project.
+		- Maked demo of :
+			- CrudRepository<T,Integer>
+				- explore  it's own methods 
+				- Custom methods.
+			- @Query : 
+				- JPQL
+				- Native Query
+			- @Param
+		- Worked on UI of SringBootFinal
+		
+		Total Time : 09:25 Hours
+		
+		
+		
+EOD of 18-05-2022
+
+Project: Spring Boot Project.
+	- Worked on : 
+		- created boot project stucture. 
+		- new user inserted into database.
+		- Login with session.
+		- Profile page.
+		- Fetched all user in adminhome
+		- admin delete button disable and admin can also view all users profile.
+				
+		Total Time : 09:46 Hours
+		
+EOD of 19-05-2022
+
+Project: Spring Boot Project.
+	- Worked on : 
+			- Spring boot project completed.
+			- Future enhancement completed that provided by komalmam.
+			- Tested by Komalmam.				
+		Total Time : 09:16 Hours
+		
+		
+		
+EOD of 20-05-2022
+
+Project: Spring Boot Project.
+	- Working on testcases of springboot project.
+	- 45% covered.
+					
+		Total Time : 09:57 Hours
+		
+
+
+
+
+
+EOD of 23-05-2022
+
+Project: Spring Boot Project.
+	- Working on testcases of springboot project.
+	- Service layer 100% covered.
+	- Working on controller layer (33% covered)
+	- all over 76% covered.
+					
+		Total Time : 09:05 Hours
+		
+
+
+
+EOD of 24-05-2022
+
+Project: Spring Boot Project.
+	
+	- Service layer 100% covered.
+	- Controller layer 100% covered.
+	- Filter 67% covered (due to filter method)
+					
+	Total Time : 09:14 Hours
+		
+
+
+
+
+
+
+
+EOD of 26-05-2022
+
+Project: Spring Boot Project.
+	
+	- Changed Testcases that provided by shreyanshsir.
+	- Working on spring security.
+	- maked simple demo of spring security using REST api.
+					
+	Total Time : 09:03 Hours
+		
+
+
+
+
+EOD of 27-05-2022
+
+Project: Spring Security Project.
+	
+	- Applied basic Auth with :
+		- default username and password.
+		- custom username and password with role.
+		- maked public urls.
+		- role base authentication
+		- some request map to perticuler role using annotation.
+		- CSRF(Cross-site Resquest Forgory) disable for add user.
+		- CsrfTokenRepository access push,put with gen token.
+	- Applied form based authentication.
+		- default form page.
+		- custom login page.
+	- Working on JWT Token protocol	
+	
+	Total Time : 08:39 Hours
+		
+
+
+
+
+
+
+
+EOD of 30-05-2022
+
+Project: Spring Security Project.
+
+	- Spring security authentication applied by database.
+	- Maked demo of JWT Token.
+	- Working on OAuth2 
+	
+	Total Time : 09:31 Hours
+		
+
+
+
+
+
+
+
+
+

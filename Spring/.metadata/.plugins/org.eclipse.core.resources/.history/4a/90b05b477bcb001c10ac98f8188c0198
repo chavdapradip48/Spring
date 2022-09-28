@@ -1,0 +1,8 @@
+package com.pradip.springmvc.dao;
+
+import com.pradip.springmvc.model.User;
+
+public interface Dao {
+	boolean userLoginCheck(String email,String password);
+	boolean insertUser(User user);
+}

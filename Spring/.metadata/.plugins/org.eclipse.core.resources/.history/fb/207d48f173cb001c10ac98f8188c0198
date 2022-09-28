@@ -1,0 +1,8 @@
+package com.pradip.springmvc.service;
+
+import com.pradip.springmvc.model.User;
+
+public interface Service {
+	boolean userLoginService(String email,String password);
+	boolean insertUser(User user);
+}

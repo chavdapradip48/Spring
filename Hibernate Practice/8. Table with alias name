@@ -1,0 +1,79 @@
+
+
+
+
+
+						8. Table with alias name
+						========================
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+6.  MainClass.java(main) :
+----------------------------
+package com.hibernate.hql;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+
+		Session s=factory.openSession();
+		String query="from Employee e where e.employeeName=:name and e.employeeId=:id";
+		Query q=s.createQuery(query);
+		
+
+		
+		/*query.setParameter(variableName,variableValue)*/
+//		String query="from Employee where employeeName=:name and employeeId=:id";
+		q.setParameter("name", "Pradip Chavda");
+		q.setParameter("id", 1);
+
+
+//		String query="from Employee where employeeName='Pradip Chavda' and employeeId=1";
+		Employee e=(Employee) q.uniqueResult();
+		System.out.println(e.getEmployeeId()+"\t"+e.getEmployeeName());
+		for(Project p:e.getProject()) {
+			System.out.print("\t"+p.getProjectName());
+		}
+
+	}
+
+}
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 25, 2022 11:09:53 AM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 25, 2022 11:09:54 AM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 25, 2022 11:09:54 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 25, 2022 11:09:54 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 25, 2022 11:09:54 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 25, 2022 11:09:54 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 25, 2022 11:09:54 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 25, 2022 11:09:54 AM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Apr 25, 2022 11:09:55 AM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@51a18b21] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Apr 25, 2022 11:09:55 AM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: select employee0_.employeeId as employee1_0_, employee0_.employeeName as employee2_0_ from Employee employee0_ where employee0_.employeeName='Pradip Chavda' and employee0_.employeeId=1
+1	Pradip Chavda
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+	Spring Core Project	Spring Hibernate Project	JSP & Servlet Project

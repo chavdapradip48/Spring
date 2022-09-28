@@ -1,0 +1,91 @@
+
+
+
+
+
+						9. Pagination
+						=============
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+6.  MainClass.java(main) :
+----------------------------
+package com.hibernate.hql;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class MainClass {
+
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+
+		Session s=factory.openSession();
+		String query="from Employee";
+		Query q=s.createQuery(query);
+		q.setFirstResult(2);
+		q.setMaxResults(6);
+
+		List<Employee> l=q.list();
+		for(Employee e:l) {
+			System.out.println("\n"+e.getEmployeeId()+"\t"+e.getEmployeeName());
+			for(Project p:e.getProject()) {
+				System.out.print("\t"+p.getProjectName());
+			}
+		}
+	}
+
+}
+
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 25, 2022 12:09:12 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 25, 2022 12:09:14 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 25, 2022 12:09:14 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 25, 2022 12:09:14 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 25, 2022 12:09:14 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 25, 2022 12:09:14 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 25, 2022 12:09:14 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 25, 2022 12:09:15 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Apr 25, 2022 12:09:16 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@5418a0f6] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Apr 25, 2022 12:09:16 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: select employee0_.employeeId as employee1_0_, employee0_.employeeName as employee2_0_ from Employee employee0_ limit ?, ?
+
+3	Rakesh Parmar
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+
+4	Ajay
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+
+5	Bhavin
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+
+6	Krunal
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+
+7	Manisha
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+
+8	Daryll
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+

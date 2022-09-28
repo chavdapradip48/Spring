@@ -1,0 +1,5 @@
+package com.pradip.springmvc.dao;
+
+public class Dao {
+
+}

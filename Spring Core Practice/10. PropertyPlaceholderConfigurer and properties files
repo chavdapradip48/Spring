@@ -1,0 +1,134 @@
+
+
+
+						PropertyPlaceholderConfigurer and properties files :
+						===================================================
+
+----------------------------------------------------------------------------------------------------------
+1. SetProp.java(bean)
+---------------------
+package com.pradip.properties;
+
+public class SetProp {
+	private String username;
+	private String password;
+	private String database;
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getDatabase() {
+		return database;
+	}
+	public void setDatabase(String database) {
+		this.database = database;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	private String url;
+	@Override
+	public String toString() {
+		return "SetProp [username=" + username + ", password=" + password + ", database=" + database + ", url=" + url
+				+ "]";
+	}
+
+}
+
+----------------------------------------------------------------------------------------------------------
+2. PrintData.java(main)
+-----------------------
+package com.pradip.properties;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class PrintData {
+	public static void main(String a[]) {
+		ApplicationContext context=new ClassPathXmlApplicationContext("general.xml");
+	        
+		SetProp db = (SetProp) context.getBean("setprop");
+	      
+	    System.out.println("** Spring properties file demo **\n\n"+db.toString());
+	    
+	    ((ConfigurableApplicationContext)context).close();
+		
+	}
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+3. user.properties :
+-------------------
+db.username=root
+db.password=99097@Pradip
+db.database=pradip
+db.url=jdbc:mysql:// localhost:3306/
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+4. general.xml :
+-------------------
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns = "http://www.springframework.org/schema/beans"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<!-- PropertyPlaceholderConfigurer and properties files -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	       <!-- <property name="location" value="classpath:user.properties" /> -->
+		<property name="location" value="user.properties" />
+	</bean>
+	<bean id="setprop" class="com.pradip.properties.SetProp">
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+		<property name="database" value="${db.database}" />
+		<property name="url" value="${db.url}" />
+	</bean>
+
+	
+</beans>	
+=========================================================================================================
+5. OutPut
+==========================================================================================================
+
+** Spring properties file demo **
+
+SetProp [username=root, password=99097@Pradip, database=pradip, url=jdbc:mysql:// localhost:3306/]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+s
+

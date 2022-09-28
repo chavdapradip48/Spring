@@ -1,0 +1,233 @@
+
+
+
+
+
+						Second Level Cache 
+						==================
+
+
+
+----------------------------------------------------------------------------------------------------------
+1.  pom.xml :
+--------------
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <dependencies>
+	<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+	<dependency>
+	    <groupId>net.sf.ehcache</groupId>
+	    <artifactId>ehcache</artifactId>
+	    <version>2.10.9.2</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-ehcache</artifactId>
+	    <version>5.4.5.Final</version>
+	</dependency>
+
+  </dependencies>
+
+</project>
+
+----------------------------------------------------------------------------------------------------------
+2.  hibernate.cfg.xml :
+------------------------
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql:// localhost:3306/pradip</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">99097@Pradip</property>
+		<property name="dialect">org.hibernate.dialect.MySQL8Dialect</property><!--database (oracle,mysql,etc) -->
+		<property name="hbm2ddl.auto">update</property><!-- create, update -->
+		<property name="show_sql">true</property> <!--  it show query when query fired-->
+		<property name="format_sql">true</property><!-- Query come formated manner -->
+		<property name="cache.use_second_level_cache">true</property>
+		<property name="cache.region.factory_class">org.hibernate.cache.ehcache.internal.EhcacheRegionFactory</property>
+		
+		<mapping class="com.hibernate.person.Person"/>
+		<mapping class="com.hibernate.person.Company"/>
+		
+		<mapping class="com.hibernate.question.Question"/>
+		<mapping class="com.hibernate.question.Answer"/>
+	
+	 
+		<!-- <mapping class="com.hibernate.project.Employee"/>
+		<mapping class="com.hibernate.project.Project"/> -->
+		
+		<mapping class="com.hibernate.hql.Employee"/>
+		<mapping class="com.hibernate.hql.Project"/>
+		
+		
+	</session-factory>
+	
+</hibernate-configuration>
+----------------------------------------------------------------------------------------------------------
+4.  Employee.java(bean) :
+----------------------------
+package com.hibernate.hql;
+
+import java.util.List;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.stereotype.Component;
+
+@Entity
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Employee{
+
+	@Id
+	private int employeeId;
+	private String employeeName;
+	@ManyToMany
+	@JoinTable(name = "employee_project_mapping",joinColumns = {@JoinColumn(name="join_pid")},inverseJoinColumns = {@JoinColumn(name="join_eid")})
+	private List<Project> project;
+	
+	public Employee(int employeeId, String employeeName, List<Project> project) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.project = project;
+	}
+	public Employee() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+	public List<Project> getProject() {
+		return project;
+	}
+	public void setProject(List<Project> project) {
+		this.project = project;
+	}
+	
+	
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+6.  SecondLevelCache.java(main) :
+----------------------------
+package com.hibernate.hql;
+
+import java.util.Scanner;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+
+public class SecondLevelCache {
+
+	public static void main(String[] args) {
+
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		Session s=factory.openSession();
+		// First session
+		Employee e=s.get(Employee.class, 5);
+		System.out.println("\nFirst session : "+e);
+		
+		s.close();
+		System.out.println("\nFirst Session  closed: ");
+		
+		// second session
+		Session s2=factory.openSession();
+		Employee e2=s2.get(Employee.class, 5);
+		System.out.println("\nSecond session : "+e2);
+		s2.close();
+		System.out.println("\nSecond Session  closed: ");
+		
+		// Third session
+		Session s3=factory.openSession();
+		Employee e3=s3.get(Employee.class, 5);
+		System.out.println("\nThird session : "+e3);
+		s3.close();
+		System.out.println("\nThird Session  closed: ");
+	}
+
+}
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 25, 2022 5:09:37 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 25, 2022 5:09:38 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 25, 2022 5:09:38 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 25, 2022 5:09:39 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Apr 25, 2022 5:09:40 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3625a016] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Hibernate: 
+    
+    alter table Answer 
+       add constraint FKiab62yi7k1mtyhsd40l6eu97d 
+       foreign key (question_fk) 
+       references Question (question_id)
+Apr 25, 2022 5:09:40 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: 
+    select
+        employee0_.employeeId as employee1_1_0_,
+        employee0_.employeeName as employee2_1_0_ 
+    from
+        Employee employee0_ 
+    where
+        employee0_.employeeId=?
+Fisrt time query fired : com.hibernate.hql.Employee@20ead579
+Second time query fired : com.hibernate.hql.Employee@20ead579
+Session closed
+Hibernate: 
+    select
+        employee0_.employeeId as employee1_1_0_,
+        employee0_.employeeName as employee2_1_0_ 
+    from
+        Employee employee0_ 
+    where
+        employee0_.employeeId=?
+After session close new session : com.hibernate.hql.Employee@20ead579
+
+

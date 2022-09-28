@@ -1,0 +1,33 @@
+package com.pradip.springmvc.config;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.*;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.context.support.XmlWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+
+
+public class ApplicationInitializer implements WebApplicationInitializer  {
+
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		System.out.println("\nHello this is ApplicationInitializer");
+
+		AnnotationConfigWebApplicationContext context=new AnnotationConfigWebApplicationContext();
+		
+		// Creating a dispatcher servlet object
+		DispatcherServlet dispatcher=new DispatcherServlet(context);
+		
+		// Now Register dispatcherservlet with servlet context
+
+		ServletRegistration.Dynamic custom=servletContext.addServlet("myDispatcherServlet", dispatcher);
+		custom.setLoadOnStartup(1);
+		custom.addMapping("/");
+//		ServletRegistration.
+		
+	}
+
+}

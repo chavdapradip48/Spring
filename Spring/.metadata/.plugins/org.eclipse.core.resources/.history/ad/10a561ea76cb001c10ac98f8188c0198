@@ -1,0 +1,12 @@
+package com.pradip.springmvc.service;
+
+
+import org.springframework.stereotype.Service;
+
+import com.pradip.springmvc.model.User;
+
+@Service("userService")
+public interface ServiceInf{
+	boolean userLoginService(String email,String password);
+	boolean insertUser(User user);
+}

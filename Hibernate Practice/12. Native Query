@@ -1,0 +1,80 @@
+
+
+
+
+
+						9. Pagination
+						=============
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+6.  MainClass.java(main) :
+----------------------------
+package com.hibernate.hql;
+
+import java.util.List;
+import java.util.Scanner;
+
+import org.hibernate.query.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class MainClass {
+
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int userId;
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		Scanner sc=new Scanner(System.in);
+		Session s=factory.openSession();
+		
+		String query= "select * from Employee";
+		NativeQuery nativeQuery=s.createSQLQuery(query);
+		List<Object[]> empList=nativeQuery.list(); // it return list of Object array
+		for(Object[] e:empList) {
+			System.out.println(e[0]+"\t"+e[1]); // from array we get value index wise
+		}
+	}
+}
+
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 25, 2022 3:56:58 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 25, 2022 3:56:59 PM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 25, 2022 3:56:59 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 25, 2022 3:56:59 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 25, 2022 3:56:59 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 25, 2022 3:56:59 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 25, 2022 3:56:59 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 25, 2022 3:57:00 PM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Apr 25, 2022 3:57:02 PM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@51a18b21] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Apr 25, 2022 3:57:02 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+1	Pradip Chavda
+2	Sandip Chavda
+3	Rakesh Parmar
+5	New
+6	Krunal
+7	Manisha
+8	Daryll
+9	Kishan
+10	Kishan
+11	Sailesh
+12	Krunal
+

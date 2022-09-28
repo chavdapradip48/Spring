@@ -1,0 +1,5 @@
+package com.spring.springproject.controller;
+
+public class FrontController {
+
+}

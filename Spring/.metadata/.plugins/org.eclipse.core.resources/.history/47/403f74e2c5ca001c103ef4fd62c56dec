@@ -1,0 +1,10 @@
+package com.pradip.springmvc.service;
+
+public class ServiceImpl implements Service{
+	
+	@Override
+	public boolean userLoginService(String email, String password) {
+		return false;
+	}
+
+}

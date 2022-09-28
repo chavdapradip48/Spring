@@ -1,0 +1,67 @@
+package com.pradip.springmvc.model;
+
+import java.util.Arrays;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class User {
+	private String userName;
+	private Long userMobile;
+	private String userGender;
+	private String[] userHobby;
+	private Address address;
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", userMobile=" + userMobile + ", userGender=" + userGender
+				+ ", userHobby=" + Arrays.toString(userHobby) + ", address=" + address + "]";
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public User(String userName, Long userMobile, String userGender, String[] userHobby) {
+		super();
+		this.userName = userName;
+		this.userMobile = userMobile;
+		this.userGender = userGender;
+		this.userHobby = userHobby;
+	}
+
+	public User() {
+		super();
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public Long getUserMobile() {
+		return userMobile;
+	}
+	public void setUserMobile(Long userMobile) {
+		this.userMobile = userMobile;
+	}
+	public String getUserGender() {
+		return userGender;
+	}
+	public void setUserGender(String userGender) {
+		this.userGender = userGender;
+	}
+	public String[] getUserHobby() {
+		return userHobby;
+	}
+	public void setUserHobby(String[] userHobby) {
+		this.userHobby = userHobby;
+	}
+
+	
+	
+}

@@ -1,0 +1,242 @@
+
+
+
+
+
+						Get All Data
+						============
+
+
+
+
+----------------------------------------------------------------------------------------------------------
+2. hibernate.cfg.java  :
+-------------------------
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql:// localhost:3306/pradip</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">99097@Pradip</property>
+		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property><!--database (oracle,mysql,etc) -->
+		<property name="hbm2ddl.auto">create</property><!-- create, update -->
+		<property name="show_sql">true</property><!--  it show query when query fired-->
+	 
+		<mapping class="com.hibernate.hql.Employee"/>
+		<mapping class="com.hibernate.hql.Project"/>
+	</session-factory>
+</hibernate-configuration>
+
+
+----------------------------------------------------------------------------------------------------------
+3.  Employee.java(bean) :
+----------------------------
+package com.hibernate.project;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.springframework.stereotype.Component;
+
+@Entity
+public class Employee{
+
+	@Id
+	private int employeeId;
+	private String employeeName;
+	@ManyToMany
+	@JoinTable(name = "employee_project_mapping",joinColumns = {@JoinColumn(name="join_pid")},inverseJoinColumns = {@JoinColumn(name="join_eid")})
+	private List<Project> project;
+	
+	public Employee(int employeeId, String employeeName, List<Project> project) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.project = project;
+	}
+	public Employee() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
+	}
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+	public List<Project> getProject() {
+		return project;
+	}
+	public void setProject(List<Project> project) {
+		this.project = project;
+	}
+	
+	
+	
+}
+
+----------------------------------------------------------------------------------------------------------
+4.  Project.java(bean) :
+----------------------------
+package com.hibernate.project;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import org.springframework.stereotype.Component;
+
+@Entity
+public class Project {
+	
+	@Id
+	private int projectId;
+	
+	private String ProjectName;
+	@ManyToMany//(mappedBy = "project")
+	@JoinTable(name = "project_employee_mapping",joinColumns = {@JoinColumn(name="join_eid")},inverseJoinColumns = {@JoinColumn(name="join_pid")})
+	private List<Employee> employee;
+	
+	public Project(int projectId, String projectName, List<Employee> employee) {
+		super();
+		this.projectId = projectId;
+		ProjectName = projectName;
+		this.employee = employee;
+	}
+	public Project() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public int getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+	public String getProjectName() {
+		return ProjectName;
+	}
+	public void setProjectName(String projectName) {
+		ProjectName = projectName;
+	}
+	public List<Employee> getEmployee() {
+		return employee;
+	}
+	public void setEmployee(List<Employee> employee) {
+		this.employee = employee;
+	}
+
+	
+	
+}
+
+
+----------------------------------------------------------------------------------------------------------
+6.  MainClass.java(main) :
+----------------------------
+
+package com.hibernate.hql;
+
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class MainClass {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SessionFactory factory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		
+		Session s=factory.openSession();
+		String query="from Employee";
+		Query q=s.createQuery(query);
+
+		/*
+		 * If you know query return single result then we use (query.uniqueResult())
+		 * And otherwise we use list for multiple data (query.list()).
+		 * */
+		
+		List<Employee> l=q.list();
+		for(Employee e:l) {
+			System.out.println(e.getEmployeeId()+"\t"+e.getEmployeeName());
+			for(Project p:e.getProject()) {
+				System.out.print("\t"+p.getProjectName());
+			}
+		}
+	}
+
+}
+
+=========================================================================================================
+7. OutPut
+==========================================================================================================
+Apr 25, 2022 11:01:36 AM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate Core {5.4.5.Final}
+Apr 25, 2022 11:01:37 AM org.hibernate.annotations.common.reflection.java.JavaReflectionManager <clinit>
+INFO: HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+Apr 25, 2022 11:01:37 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+Apr 25, 2022 11:01:37 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql:// localhost:3306/pradip]
+Apr 25, 2022 11:01:37 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001001: Connection properties: {password=****, user=root}
+Apr 25, 2022 11:01:37 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl buildCreator
+INFO: HHH10001003: Autocommit mode: false
+Apr 25, 2022 11:01:37 AM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PooledConnections <init>
+INFO: HHH000115: Hibernate connection pool size: 20 (min=1)
+Apr 25, 2022 11:01:38 AM org.hibernate.dialect.Dialect <init>
+INFO: HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Apr 25, 2022 11:01:38 AM org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl getIsolatedConnection
+INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@51a18b21] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+Apr 25, 2022 11:01:38 AM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+Hibernate: select employee0_.employeeId as employee1_0_, employee0_.employeeName as employee2_0_ from Employee employee0_
+1	Pradip Chavda
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+	Spring Core Project	Spring Hibernate Project	JSP & Servlet Project2	Sandip Chavda
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+3	Rakesh Parmar
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+4	Ajay
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+5	Bhavin
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+6	Krunal
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+7	Manisha
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+8	Daryll
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+9	Parth
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+10	Kishan
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+	Hotel management 	Eoptical shop	Tourism management11	Sailesh
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+12	Krunal
+Hibernate: select project0_.join_pid as join_pid1_1_0_, project0_.join_eid as join_eid2_1_0_, project1_.projectId as projectI1_2_1_, project1_.ProjectName as ProjectN2_2_1_ from employee_project_mapping project0_ inner join Project project1_ on project0_.join_eid=project1_.projectId where project0_.join_pid=?
+
